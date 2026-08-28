@@ -23,5 +23,15 @@
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules",
+    // Cloudflare's ambient Workers types (via cloudflare-env.d.ts) clash
+    // with DOM lib types (e.g. narrow Response.json() to `unknown`) if
+    // merged into the main app's global scope — see tsconfig.worker.json.
+    "custom-worker.ts",
+    "cloudflare-env.d.ts",
+    "open-next.config.ts",
+    ".open-next",
+    ".wrangler"
+  ]
 }

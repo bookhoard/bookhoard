@@ -1,0 +1,23 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "main": "./custom-worker.ts",
+  "name": "bookhoard-demo",
+  "compatibility_date": "2024-12-30",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  // Backs the app's storage layer when STORAGE_DRIVER=r2 — see
+  // src/lib/storage/r2.ts. Binding name must match R2_BUCKET_BINDING.
+  "r2_buckets": [
+    {
+      "binding": "BOOKHOARD_BUCKET",
+      "bucket_name": "bookhoard-demo"
+    }
+  ],
+  // Resets the demo data every hour — see custom-worker.ts.
+  "triggers": {
+    "crons": ["0 * * * *"]
+  }
+}
