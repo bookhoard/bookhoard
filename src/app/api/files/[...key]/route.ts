@@ -19,6 +19,13 @@ export async function GET(
   const webStream = Readable.toWeb(nodeStream) as ReadableStream;
 
   return new NextResponse(webStream, {
-    headers: { "Content-Type": contentTypeFor(key) },
+    headers: {
+      "Content-Type": contentTypeFor(key),
+      // Everything under here is immutable once written: covers are
+      // versioned via bookCoverUrl's ?v= query param, and book.epub/
+      // extracted files are keyed by content-hash-deduped book id — so
+      // it's safe to cache forever and let the URL change on update.
+      "Cache-Control": "public, max-age=31536000, immutable",
+    },
   });
 }
