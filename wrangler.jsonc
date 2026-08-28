@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "main": "./custom-worker.ts",
+  "main": "./.open-next/worker.js",
   "name": "bookhoard-demo",
   "compatibility_date": "2024-12-30",
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
@@ -21,9 +21,5 @@
       "binding": "BOOKHOARD_BUCKET",
       "bucket_name": "bookhoard-demo"
     }
-  ],
-  // Resets the demo data every hour — see custom-worker.ts.
-  "triggers": {
-    "crons": ["0 * * * *"]
-  }
+  ]
 }
