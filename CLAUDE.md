@@ -1,4 +1,4 @@
-# Bookhoard
+# Bookhoarder
 
 Self-hosted EPUB library. See `plans/first.md` for the full build plan.
 

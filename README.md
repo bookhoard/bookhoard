@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="public/logo.png" alt="Bookhoard" width="120" />
+  <img src="public/logo.png" alt="Bookhoarder" width="120" />
 </p>
 
-<h1 align="center">Bookhoard</h1>
+<h1 align="center">Bookhoarder</h1>
 
 <p align="center">
   Self-hosted EPUB library. Object storage is the only persistence layer —
@@ -13,7 +13,7 @@
   <a href="https://github.com/bookhoard/bookhoard/actions/workflows/ci.yml"><img src="https://github.com/bookhoard/bookhoard/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
   <a href="https://github.com/bookhoard/bookhoard/releases"><img src="https://img.shields.io/github/v/release/bookhoard/bookhoard" alt="Latest release"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-Elastic--2.0-blue" alt="License"></a>
-  <a href="https://bookhoard.dev"><img src="https://img.shields.io/badge/website-bookhoard.dev-orange" alt="Website"></a>
+  <a href="https://bookhoarder.dev"><img src="https://img.shields.io/badge/website-bookhoarder.dev-orange" alt="Website"></a>
 </p>
 
 ## Quickstart (Docker)
@@ -52,6 +52,6 @@ and set `STORAGE_DRIVER=s3` in `.env.local` (see `.env.example` for the rest of 
 
 ## License
 
-Bookhoard is licensed under the [Elastic License 2.0](LICENSE). You're free
+Bookhoarder is licensed under the [Elastic License 2.0](LICENSE). You're free
 to self-host, modify, and use it — including internally at a company — but
 you may not offer it to third parties as a hosted or managed service.

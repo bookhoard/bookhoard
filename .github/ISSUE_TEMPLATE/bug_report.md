@@ -23,7 +23,7 @@ _Explain the problem you have encountered_
 
 ### Environment
 
-- Bookhoard version:
+- Bookhoarder version:
 - Deployment: Docker / local (`pnpm dev`) / other:
 - Storage driver: local / S3:
 - Browser:

@@ -11,6 +11,6 @@
 export function openLibraryUserAgent(): string {
   const contact = process.env.OPENLIBRARY_CONTACT?.trim();
   return contact
-    ? `Bookhoard/0.1 (+https://bookhoard.dev; ${contact})`
-    : "Bookhoard/0.1 (+https://bookhoard.dev)";
+    ? `Bookhoarder/0.1 (+https://bookhoarder.dev; ${contact})`
+    : "Bookhoarder/0.1 (+https://bookhoarder.dev)";
 }

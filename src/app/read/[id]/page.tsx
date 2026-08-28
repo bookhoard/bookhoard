@@ -15,7 +15,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { id } = await params;
   const record = await readJson<BookRecord>(`books/${id}/metadata.json`);
-  return { title: record ? `${record.title} - Bookhoard` : "Bookhoard" };
+  return { title: record ? `${record.title} - Bookhoarder` : "Bookhoarder" };
 }
 
 export default async function ReadPage({

@@ -54,7 +54,7 @@ export async function POST(
       from: settings.smtp.fromAddress,
       to: profile.ereaderEmail,
       subject: book.title,
-      text: `Sent from Bookhoard: ${book.title} by ${book.author}`,
+      text: `Sent from Bookhoarder: ${book.title} by ${book.author}`,
       attachments: [{ filename: `${book.title}.epub`, content: buffer }],
     });
   } catch (error) {
