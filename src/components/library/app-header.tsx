@@ -11,6 +11,7 @@ import {
 import { SearchDialog } from "./search-dialog";
 import { cn } from "@/lib/utils";
 import { useLibraryShell } from "./library-shell-context";
+import { DEMO_MODE } from "@/lib/demo-mode";
 
 export function AppHeader() {
   const { uploading, uploadFile } = useLibraryShell();
@@ -49,36 +50,38 @@ export function AppHeader() {
         </kbd>
       </button>
 
-      <div className="flex shrink-0 items-center gap-4">
-        <input
-          ref={fileInputRef}
-          type="file"
-          accept=".epub"
-          className="hidden"
-          onChange={handleFileChange}
-        />
-        <div className="flex items-center gap-2">
-          <Tooltip>
-            <TooltipTrigger
-              render={
-                <Button
-                  variant="outline"
-                  size="icon"
-                  className="rounded-full"
-                  aria-label="Add book"
-                  onClick={() => fileInputRef.current?.click()}
-                  disabled={uploading}
-                >
-                  <span className={cn(uploading && "animate-spin")}>
-                    {uploading ? <Loader2 className="size-4" /> : <Plus className="size-4" />}
-                  </span>
-                </Button>
-              }
-            />
-            <TooltipContent>Add book</TooltipContent>
-          </Tooltip>
+      {!DEMO_MODE && (
+        <div className="flex shrink-0 items-center gap-4">
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept=".epub"
+            className="hidden"
+            onChange={handleFileChange}
+          />
+          <div className="flex items-center gap-2">
+            <Tooltip>
+              <TooltipTrigger
+                render={
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    className="rounded-full"
+                    aria-label="Add book"
+                    onClick={() => fileInputRef.current?.click()}
+                    disabled={uploading}
+                  >
+                    <span className={cn(uploading && "animate-spin")}>
+                      {uploading ? <Loader2 className="size-4" /> : <Plus className="size-4" />}
+                    </span>
+                  </Button>
+                }
+              />
+              <TooltipContent>Add book</TooltipContent>
+            </Tooltip>
+          </div>
         </div>
-      </div>
+      )}
 
       <SearchDialog open={searchOpen} onOpenChange={setSearchOpen} />
     </header>

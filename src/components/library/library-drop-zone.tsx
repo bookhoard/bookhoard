@@ -3,6 +3,7 @@
 import * as React from "react";
 import { UploadCloud } from "lucide-react";
 import { useLibraryShell } from "./library-shell-context";
+import { DEMO_MODE } from "@/lib/demo-mode";
 
 /**
  * EPUB drag-and-drop upload, scoped to the Library page's own content area
@@ -23,6 +24,10 @@ export function LibraryDropZone({
   // pointer has actually left the whole drop zone
   const dragCounter = React.useRef(0);
   const [dragging, setDragging] = React.useState(false);
+
+  if (DEMO_MODE) {
+    return <div className="relative flex flex-col gap-8">{children(false)}</div>;
+  }
 
   const handleDragEnter = (e: React.DragEvent) => {
     if (!e.dataTransfer.types.includes("Files")) return;

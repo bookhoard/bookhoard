@@ -6,6 +6,7 @@ import { BookGrid } from "@/components/library/book-grid";
 import { LibraryDropZone, UploadPlaceholderCard } from "@/components/library/library-drop-zone";
 import { useLibraryShell } from "@/components/library/library-shell-context";
 import { useDocumentTitle } from "@/hooks/use-document-title";
+import { DEMO_MODE } from "@/lib/demo-mode";
 
 export default function LibraryPage() {
   useDocumentTitle("Library");
@@ -29,7 +30,11 @@ export default function LibraryPage() {
             actions={bookCardActions}
             emptyIcon={LibraryBig}
             emptyTitle="Your library is empty"
-            emptyMessage="Use the upload button in the top-right corner to add your first EPUB."
+            emptyMessage={
+              DEMO_MODE
+                ? "This demo only shows what's already in the bucket — uploads are disabled."
+                : "Use the upload button in the top-right corner to add your first EPUB."
+            }
             leadingSlot={dragging ? <UploadPlaceholderCard /> : null}
           />
         </>
