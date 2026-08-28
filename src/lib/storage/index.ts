@@ -1,5 +1,6 @@
 import { S3Driver } from "./s3";
 import { LocalDriver } from "./local";
+import { R2Driver } from "./r2";
 import type { StorageDriver } from "./types";
 
 export type { StorageDriver } from "./types";
@@ -26,6 +27,13 @@ function createDriver(): StorageDriver {
       region: process.env.S3_REGION,
       prefix: process.env.S3_PREFIX,
     });
+  }
+
+  // Cloudflare Workers deployment (e.g. the demo) — native R2 binding
+  // instead of the AWS SDK, which doesn't run in the Workers runtime.
+  if (kind === "r2") {
+    const binding = process.env.R2_BUCKET_BINDING ?? "BOOKHOARD_BUCKET";
+    return new R2Driver({ binding, prefix: process.env.S3_PREFIX });
   }
 
   return new LocalDriver(process.env.LOCAL_STORAGE_PATH ?? "./.data");

@@ -34,6 +34,12 @@ pnpm-debug.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# cloudflare (opennextjs-cloudflare) — generated, and derived from local .env
+.open-next/
+.wrangler/
+cloudflare-env.d.ts
+.dev.vars
+
 # local dev storage (local driver default target)
 /.data
 
