@@ -140,7 +140,22 @@ export function AppSidebar() {
       </button>
 
       <div className="flex h-20 items-center gap-2.5 px-5">
-        <Image src="/logo.png" alt="Bookhoarder" width={36} height={36} className="size-9 shrink-0" />
+        <div className="group relative size-9 shrink-0 overflow-hidden">
+          <Image
+            src="/logo/body.png"
+            alt=""
+            width={36}
+            height={36}
+            className="absolute inset-0 size-full object-contain"
+          />
+          <Image
+            src="/logo/book.png"
+            alt="Bookhoarder"
+            width={36}
+            height={36}
+            className="absolute inset-0 size-full translate-y-[17%] object-contain transition-transform duration-300 ease-out group-hover:-translate-y-[1%]"
+          />
+        </div>
         {!collapsed && (
           <span className="font-heading text-lg font-bold tracking-tight">
             Bookhoarder
