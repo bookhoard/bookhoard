@@ -12,11 +12,7 @@
   // This is a build-time concern too (CLOUDFLARE_BUILD, set in the
   // build:cloudflare scripts) but the app also reads it at request time.
   "vars": {
-    "STORAGE_DRIVER": "r2",
-    // The demo's book data already lives under this prefix in the bucket
-    // (from a since-fixed build that leaked a local .env value here) —
-    // pinning it explicitly rather than migrating ~20 books to root.
-    "S3_PREFIX": "bookhoard"
+    "STORAGE_DRIVER": "r2"
   },
   // Backs the app's storage layer when STORAGE_DRIVER=r2 — see
   // src/lib/storage/r2.ts. Binding name must match R2_BUCKET_BINDING.
