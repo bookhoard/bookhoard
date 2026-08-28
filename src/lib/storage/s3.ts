@@ -17,14 +17,20 @@ export interface S3DriverConfig {
   secretAccessKey: string;
   region?: string;
   forcePathStyle?: boolean;
+  /** Scopes every key under this directory — for sharing a bucket with other apps. */
+  prefix?: string;
 }
 
 export class S3Driver implements StorageDriver {
   private client: S3Client;
   private bucket: string;
+  /** Empty, or normalized to a single trailing slash (e.g. "bookhoard/"). */
+  private prefix: string;
 
   constructor(config: S3DriverConfig) {
     this.bucket = config.bucket;
+    const trimmed = config.prefix?.replace(/^\/+|\/+$/g, "") ?? "";
+    this.prefix = trimmed ? `${trimmed}/` : "";
     this.client = new S3Client({
       endpoint: config.endpoint,
       region: config.region ?? "auto",
@@ -36,11 +42,16 @@ export class S3Driver implements StorageDriver {
     });
   }
 
+  /** Every StorageDriver method below takes/returns keys relative to `prefix` — this is the only place that adds it back. */
+  private resolveKey(key: string): string {
+    return this.prefix + key;
+  }
+
   async put(key: string, body: Readable | Buffer, contentType: string): Promise<void> {
     await this.client.send(
       new PutObjectCommand({
         Bucket: this.bucket,
-        Key: key,
+        Key: this.resolveKey(key),
         Body: body,
         ContentType: contentType,
       })
@@ -49,14 +60,14 @@ export class S3Driver implements StorageDriver {
 
   async get(key: string): Promise<Readable> {
     const res = await this.client.send(
-      new GetObjectCommand({ Bucket: this.bucket, Key: key })
+      new GetObjectCommand({ Bucket: this.bucket, Key: this.resolveKey(key) })
     );
     return res.Body as Readable;
   }
 
   async delete(key: string): Promise<void> {
     await this.client.send(
-      new DeleteObjectCommand({ Bucket: this.bucket, Key: key })
+      new DeleteObjectCommand({ Bucket: this.bucket, Key: this.resolveKey(key) })
     );
   }
 
@@ -68,12 +79,12 @@ export class S3Driver implements StorageDriver {
       const res = await this.client.send(
         new ListObjectsV2Command({
           Bucket: this.bucket,
-          Prefix: prefix,
+          Prefix: this.resolveKey(prefix),
           ContinuationToken: continuationToken,
         })
       );
       for (const obj of res.Contents ?? []) {
-        if (obj.Key) keys.push(obj.Key);
+        if (obj.Key) keys.push(obj.Key.slice(this.prefix.length));
       }
       continuationToken = res.NextContinuationToken;
     } while (continuationToken);
@@ -84,7 +95,7 @@ export class S3Driver implements StorageDriver {
   async exists(key: string): Promise<boolean> {
     try {
       await this.client.send(
-        new HeadObjectCommand({ Bucket: this.bucket, Key: key })
+        new HeadObjectCommand({ Bucket: this.bucket, Key: this.resolveKey(key) })
       );
       return true;
     } catch {
@@ -93,7 +104,7 @@ export class S3Driver implements StorageDriver {
   }
 
   async signedUrl(key: string, ttl: number): Promise<string | null> {
-    const command = new GetObjectCommand({ Bucket: this.bucket, Key: key });
+    const command = new GetObjectCommand({ Bucket: this.bucket, Key: this.resolveKey(key) });
     return getSignedUrl(this.client, command, { expiresIn: ttl });
   }
 }

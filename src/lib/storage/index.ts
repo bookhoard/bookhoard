@@ -23,6 +23,8 @@ function createDriver(): StorageDriver {
       bucket,
       accessKeyId,
       secretAccessKey,
+      region: process.env.S3_REGION,
+      prefix: process.env.S3_PREFIX,
     });
   }
 

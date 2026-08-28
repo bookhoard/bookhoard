@@ -7,10 +7,23 @@ function storageKey(profileId: string): string {
   return `bookhoard:shelves:${profileId}`;
 }
 
+/** Seeded once for a brand-new profile (localStorage key not yet present) so the sidebar isn't empty on first run. */
+const DEFAULT_SHELF_NAMES = ["Fiction", "Non-Fiction", "Sci-Fi & Fantasy", "Biography", "To Read"];
+
+function defaultShelves(): Shelf[] {
+  return DEFAULT_SHELF_NAMES.map((name, i) => ({
+    id: crypto.randomUUID(),
+    name,
+    color: nextShelfColor(i),
+    bookIds: [],
+  }));
+}
+
 function loadShelves(profileId: string): Shelf[] {
   try {
     const raw = window.localStorage.getItem(storageKey(profileId));
-    return raw ? (JSON.parse(raw) as Shelf[]) : [];
+    if (raw === null) return defaultShelves();
+    return JSON.parse(raw) as Shelf[];
   } catch {
     return [];
   }

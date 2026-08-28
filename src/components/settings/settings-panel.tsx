@@ -84,7 +84,7 @@ function SectionCard({
 export function SettingsPanel({ settings, profile }: SettingsPanelProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { resolvedTheme, setTheme } = useTheme();
+  const { theme, setTheme } = useTheme();
   const { profiles, activeProfileId } = useLibraryShell();
   const [mounted, setMounted] = React.useState(false);
   React.useEffect(() => setMounted(true), []);
@@ -438,13 +438,32 @@ export function SettingsPanel({ settings, profile }: SettingsPanelProps) {
         {category === "theme" && (
           <SectionCard title="Theme" description="Choose how Bookhoard looks on this device.">
             <SettingRow
-              title="Dark mode"
-              description="Applies to the browser you're using right now."
+              title="Appearance"
+              description="System matches your OS/browser setting automatically."
             >
-              <Switch
-                checked={mounted && resolvedTheme === "dark"}
-                onCheckedChange={(checked) => setTheme(checked ? "dark" : "light")}
-              />
+              <div className="flex items-center gap-1 rounded-full border border-border p-1">
+                {(
+                  [
+                    { id: "light", label: "Light" },
+                    { id: "dark", label: "Dark" },
+                    { id: "system", label: "System" },
+                  ] as const
+                ).map((opt) => (
+                  <button
+                    key={opt.id}
+                    type="button"
+                    onClick={() => setTheme(opt.id)}
+                    className={cn(
+                      "rounded-full px-3 py-1.5 text-sm font-medium transition-colors",
+                      mounted && theme === opt.id
+                        ? "bg-accent text-accent-foreground"
+                        : "text-muted-foreground hover:text-foreground"
+                    )}
+                  >
+                    {opt.label}
+                  </button>
+                ))}
+              </div>
             </SettingRow>
           </SectionCard>
         )}
@@ -580,6 +599,7 @@ export function SettingsPanel({ settings, profile }: SettingsPanelProps) {
               <div className="relative w-56">
                 <Input
                   type={showSmtpPass ? "text" : "password"}
+                  autoComplete="new-password"
                   value={smtpPass}
                   onChange={(e) => setSmtpPass(e.target.value)}
                   onBlur={() => {
@@ -589,16 +609,18 @@ export function SettingsPanel({ settings, profile }: SettingsPanelProps) {
                     if (e.key === "Enter") (e.target as HTMLInputElement).blur();
                   }}
                   placeholder={settings.smtp.hasPassword ? "••••••••" : ""}
-                  className="w-full pr-9"
+                  className={cn("w-full", smtpPass && "pr-14")}
                 />
-                <button
-                  type="button"
-                  onClick={() => setShowSmtpPass((v) => !v)}
-                  aria-label={showSmtpPass ? "Hide password" : "Show password"}
-                  className="absolute top-1/2 right-2 flex size-5 -translate-y-1/2 items-center justify-center text-muted-foreground transition-colors hover:text-foreground"
-                >
-                  {showSmtpPass ? <EyeOff className="size-3.5" /> : <Eye className="size-3.5" />}
-                </button>
+                {smtpPass && (
+                  <button
+                    type="button"
+                    onClick={() => setShowSmtpPass((v) => !v)}
+                    aria-label={showSmtpPass ? "Hide password" : "Show password"}
+                    className="absolute top-1/2 right-8 flex size-5 -translate-y-1/2 items-center justify-center text-muted-foreground transition-colors hover:text-foreground"
+                  >
+                    {showSmtpPass ? <EyeOff className="size-3.5" /> : <Eye className="size-3.5" />}
+                  </button>
+                )}
               </div>
             </SettingRow>
             <SettingRow title="From address" description="The sender address readers will see.">
