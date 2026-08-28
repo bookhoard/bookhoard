@@ -10,8 +10,8 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/bookhoard/bookhoard/actions/workflows/ci.yml"><img src="https://github.com/bookhoard/bookhoard/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
-  <a href="https://github.com/bookhoard/bookhoard/releases"><img src="https://img.shields.io/github/v/release/bookhoard/bookhoard" alt="Latest release"></a>
+  <a href="https://github.com/bookhoard/bookhoarder/actions/workflows/ci.yml"><img src="https://github.com/bookhoard/bookhoarder/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+  <a href="https://github.com/bookhoard/bookhoarder/releases"><img src="https://img.shields.io/github/v/release/bookhoard/bookhoarder" alt="Latest release"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-Elastic--2.0-blue" alt="License"></a>
   <a href="https://bookhoarder.dev"><img src="https://img.shields.io/badge/website-bookhoarder.dev-orange" alt="Website"></a>
 </p>
