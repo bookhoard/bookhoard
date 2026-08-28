@@ -64,35 +64,3 @@ jobs:
             ghcr.io/${{ github.repository }}:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
-
-  deploy-demo:
-    name: Deploy demo to Cloudflare
-    needs: tag
-    if: ${{ secrets.CLOUDFLARE_API_TOKEN != '' }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Enable corepack
-        run: corepack enable
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: pnpm
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Build for Cloudflare
-        run: pnpm build:cloudflare
-        env:
-          STORAGE_DRIVER: r2
-          R2_BUCKET_BINDING: BOOKHOARD_BUCKET
-
-      - name: Deploy
-        run: pnpm exec wrangler deploy
-        env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
