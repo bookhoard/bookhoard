@@ -1,0 +1,13 @@
+# Changelog
+
+## [0.1.0](https://github.com/bookhoard/bookhoarder/compare/v0.0.24...v0.1.0) (2026-08-28)
+
+
+### Features
+
+* Update README to clarify licensing terms and usage permissions ([7490432](https://github.com/bookhoard/bookhoarder/commit/7490432050ac44371398ca5891b13798855791a0))
+
+
+### Bug Fixes
+
+* trigger initial release-please run ([ef40ce5](https://github.com/bookhoard/bookhoarder/commit/ef40ce574eae7dc8e5e2558bbd52be2fb2af03bd))
