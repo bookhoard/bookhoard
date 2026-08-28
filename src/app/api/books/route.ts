@@ -7,7 +7,6 @@ import { extractEpubCover } from "@/lib/epub/cover";
 import { extractAllEpubFiles } from "@/lib/epub/extract";
 import { slugify } from "@/lib/books/slug";
 import { contentTypeFor } from "@/lib/content-type";
-import { DEMO_MODE } from "@/lib/demo-mode";
 import type { BookRecord } from "@/lib/books/types";
 
 export async function GET() {
@@ -25,13 +24,6 @@ function uniqueSlug(baseSlug: string, contentHash: string, taken: Set<string>): 
 }
 
 export async function POST(request: Request) {
-  if (DEMO_MODE) {
-    return NextResponse.json(
-      { error: "Uploads are disabled on the demo — it only shows what's already in the bucket." },
-      { status: 403 }
-    );
-  }
-
   const form = await request.formData();
   const file = form.get("file");
 

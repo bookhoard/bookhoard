@@ -18,6 +18,11 @@ const nextConfig: NextConfig = {
       }
     : undefined,
   images: {
+    // Next's built-in optimizer fetches same-origin images via Cloudflare's
+    // static-assets binding, which only knows about prebuilt static files —
+    // our covers are streamed dynamically from R2/S3 via /api/files/[...key],
+    // so every cover 404s there. Serve them unoptimized on that build instead.
+    unoptimized: !!process.env.CLOUDFLARE_BUILD,
     remotePatterns: [
       {
         protocol: "https",
