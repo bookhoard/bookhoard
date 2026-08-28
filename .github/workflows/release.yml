@@ -80,7 +80,6 @@ jobs:
       # secrets can't be read in a job-level `if`, so the no-op check lives
       # here instead — skips cleanly until CLOUDFLARE_API_TOKEN is configured.
       - name: Build for Cloudflare
-        if: env.CLOUDFLARE_API_TOKEN != ''
         run: pnpm build:cloudflare
         env:
           STORAGE_DRIVER: r2
@@ -88,5 +87,4 @@ jobs:
           NEXT_PUBLIC_DEMO_MODE: "true"
 
       - name: Deploy
-        if: env.CLOUDFLARE_API_TOKEN != ''
         run: pnpm exec wrangler deploy
