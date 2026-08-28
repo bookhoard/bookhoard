@@ -18,4 +18,9 @@ const nextConfig: NextConfig = {
 
 export default nextConfig;
 
-initOpenNextCloudflareForDev();
+// Only wanted for `next dev` (proxies Cloudflare bindings locally) — calling
+// this during `next build` tries to spawn the workerd binary, which crashes
+// non-interactive/Docker builds where it isn't available.
+if (process.env.NODE_ENV === "development") {
+  initOpenNextCloudflareForDev();
+}
