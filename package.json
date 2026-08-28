@@ -8,9 +8,9 @@
     "build": "next build --turbopack",
     "start": "next start",
     "lint": "eslint",
-    "build:cloudflare": "opennextjs-cloudflare build",
-    "preview:cloudflare": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
-    "deploy:cloudflare": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
+    "build:cloudflare": "CLOUDFLARE_BUILD=true opennextjs-cloudflare build",
+    "preview:cloudflare": "CLOUDFLARE_BUILD=true opennextjs-cloudflare build && opennextjs-cloudflare preview",
+    "deploy:cloudflare": "CLOUDFLARE_BUILD=true opennextjs-cloudflare build && opennextjs-cloudflare deploy",
     "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts"
   },
   "dependencies": {

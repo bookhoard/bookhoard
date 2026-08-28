@@ -30,7 +30,9 @@ function createDriver(): StorageDriver {
   }
 
   // Cloudflare Workers deployment (e.g. the demo) — native R2 binding
-  // instead of the AWS SDK, which doesn't run in the Workers runtime.
+  // instead of the AWS SDK, which doesn't run in the Workers runtime. The
+  // Cloudflare build also aliases @aws-sdk/* to a stub (see next.config.ts)
+  // so this branch's S3Driver import doesn't bloat the Workers bundle.
   if (kind === "r2") {
     const binding = process.env.R2_BUCKET_BINDING ?? "BOOKHOARD_BUCKET";
     return new R2Driver({ binding, prefix: process.env.S3_PREFIX });
