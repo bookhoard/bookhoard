@@ -13,9 +13,9 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       <div className="flex flex-1 flex-col overflow-hidden">
         <AppHeader />
 
-        <div className="flex flex-1 overflow-hidden px-8 pb-8">
-          <div className="flex-1 overflow-y-auto pr-1 pt-10">
-            <div className="flex flex-col gap-8">{children}</div>
+        <div className="flex flex-1 overflow-hidden pb-8 pl-8">
+          <div className="flex-1 overflow-y-auto pt-10">
+            <div className="flex flex-col gap-8 pr-8">{children}</div>
           </div>
         </div>
       </div>

@@ -6,6 +6,7 @@ import {
   CalendarDays,
   FileText,
   BookOpen,
+  Download,
   FolderPlus,
   MoreVertical,
   Pencil,
@@ -47,7 +48,7 @@ import {
 import { cn } from "@/lib/utils";
 import { formatAddedDate, formatBytes } from "@/lib/format";
 import { useLibraryShell } from "./library-shell-context";
-import type { Book, BookRecord } from "@/lib/books/types";
+import { bookFileUrl, type Book, type BookRecord } from "@/lib/books/types";
 import type { Shelf } from "@/lib/shelves";
 
 interface DetailPanelProps {
@@ -194,6 +195,10 @@ export function DetailPanel({
             <DropdownMenuItem onClick={() => onSendToEreader(book.id)}>
               <Send className="size-3.5" />
               Send to e-reader
+            </DropdownMenuItem>
+            <DropdownMenuItem render={<a href={bookFileUrl(book.id)} download={`${book.title}.epub`} />}>
+              <Download className="size-3.5" />
+              Download EPUB
             </DropdownMenuItem>
             {isAdmin && (
               <>
