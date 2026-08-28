@@ -8,6 +8,12 @@
     "directory": ".open-next/assets",
     "binding": "ASSETS"
   },
+  // Selects the R2 storage driver at runtime — see src/lib/storage/index.ts.
+  // This is a build-time concern too (CLOUDFLARE_BUILD, set in the
+  // build:cloudflare scripts) but the app also reads it at request time.
+  "vars": {
+    "STORAGE_DRIVER": "r2"
+  },
   // Backs the app's storage layer when STORAGE_DRIVER=r2 — see
   // src/lib/storage/r2.ts. Binding name must match R2_BUCKET_BINDING.
   "r2_buckets": [
