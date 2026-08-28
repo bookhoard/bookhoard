@@ -7,6 +7,12 @@
 # .env is hidden from Next entirely for the duration of this build.
 set -e
 
+# A prior run that got killed (SIGKILL can't be trapped) can strand .env
+# under this name — put it back before doing anything else.
+if [ -f .env.hidden-for-cloudflare-build ] && [ ! -f .env ]; then
+  mv .env.hidden-for-cloudflare-build .env
+fi
+
 if [ -f .env ]; then
   mv .env .env.hidden-for-cloudflare-build
   trap 'mv .env.hidden-for-cloudflare-build .env' EXIT
