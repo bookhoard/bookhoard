@@ -1,0 +1,140 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-heading: var(--font-heading);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+:root {
+  --background: #faf9f7;
+  --foreground: #2a2520;
+  --card: #ffffff;
+  --card-foreground: #2a2520;
+  --popover: #ffffff;
+  --popover-foreground: #2a2520;
+  --primary: #57504a;
+  --primary-foreground: #faf9f7;
+  --secondary: #f1efec;
+  --secondary-foreground: #2a2520;
+  --muted: #f1efec;
+  --muted-foreground: #7a7470;
+  --accent: #efece7;
+  --accent-foreground: #2a2520;
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: #e5e0db;
+  --input: #e5e0db;
+  --ring: #a8a199;
+  --chart-1: #2a2520;
+  --chart-2: #57504a;
+  --chart-3: #7a7470;
+  --chart-4: #a8a199;
+  --chart-5: #cbc5bd;
+  --radius: 0.75rem;
+  --sidebar: #ffffff;
+  --sidebar-foreground: #2a2520;
+  --sidebar-primary: #2a2520;
+  --sidebar-primary-foreground: #faf9f7;
+  --sidebar-accent: #efece7;
+  --sidebar-accent-foreground: #2a2520;
+  --sidebar-border: #e5e0db;
+  --sidebar-ring: #a8a199;
+}
+
+.dark {
+  --background: #16140f;
+  --foreground: #d8d2c9;
+  --card: #1c1a14;
+  --card-foreground: #d8d2c9;
+  --popover: #1c1a14;
+  --popover-foreground: #d8d2c9;
+  --primary: #d8d2c9;
+  --primary-foreground: #16140f;
+  --secondary: #211e17;
+  --secondary-foreground: #d8d2c9;
+  --muted: #211e17;
+  --muted-foreground: #8f897f;
+  --accent: #26221b;
+  --accent-foreground: #d8d2c9;
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: #2b2620;
+  --input: #2b2620;
+  --ring: #57504a;
+  --chart-1: #d8d2c9;
+  --chart-2: #a8a199;
+  --chart-3: #8f897f;
+  --chart-4: #57504a;
+  --chart-5: #363028;
+  --sidebar: #1c1a14;
+  --sidebar-foreground: #d8d2c9;
+  --sidebar-primary: #d8d2c9;
+  --sidebar-primary-foreground: #16140f;
+  --sidebar-accent: #26221b;
+  --sidebar-accent-foreground: #d8d2c9;
+  --sidebar-border: #2b2620;
+  --sidebar-ring: #57504a;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground font-sans;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-heading;
+  }
+  button:not(:disabled),
+  [role="button"]:not([data-disabled]),
+  [role="menuitem"]:not([data-disabled]),
+  [role="menuitemcheckbox"]:not([data-disabled]),
+  [role="tab"]:not([data-disabled]) {
+    cursor: pointer;
+  }
+}
