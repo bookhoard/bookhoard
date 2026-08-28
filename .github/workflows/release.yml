@@ -95,6 +95,7 @@ jobs:
         env:
           STORAGE_DRIVER: r2
           R2_BUCKET_BINDING: BOOKHOARD_BUCKET
+          NEXT_PUBLIC_DEMO_MODE: "true"
 
       - name: Deploy
         if: env.CLOUDFLARE_API_TOKEN != ''
