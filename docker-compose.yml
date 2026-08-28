@@ -9,6 +9,9 @@ services:
       S3_BUCKET: bookhoard
       S3_ACCESS_KEY: bookhoard
       S3_SECRET_KEY: bookhoard123
+      # Sharing a bucket with other apps? Point this at a subdirectory
+      # instead of a dedicated bucket, e.g. S3_PREFIX: bookhoard
+      # S3_PREFIX: ""
     depends_on:
       minio-init:
         condition: service_completed_successfully

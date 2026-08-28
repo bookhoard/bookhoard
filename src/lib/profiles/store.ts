@@ -49,7 +49,7 @@ export async function ensureProfiles(): Promise<Profile[]> {
   const profile: Profile = {
     id: "default",
     name: "Profile 1",
-    color: nextProfileColor(0),
+    color: nextProfileColor(4),
     role: "admin",
     createdAt: new Date().toISOString(),
   };
