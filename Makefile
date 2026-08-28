@@ -15,8 +15,8 @@ lint: ## Lint the project
 install: ## Install dependencies
 	pnpm install
 
-docker-up: ## Start app + MinIO via docker compose
-	docker compose up
+docker-up: ## Rebuild and start app + MinIO via docker compose
+	docker compose up --build
 
 docker-down: ## Stop docker compose stack
 	docker compose down
