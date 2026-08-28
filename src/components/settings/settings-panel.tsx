@@ -436,7 +436,7 @@ export function SettingsPanel({ settings, profile }: SettingsPanelProps) {
         )}
 
         {category === "theme" && (
-          <SectionCard title="Theme" description="Choose how Bookhoard looks on this device.">
+          <SectionCard title="Theme" description="Choose how Bookhoarder looks on this device.">
             <SettingRow
               title="Appearance"
               description="System matches your OS/browser setting automatically."

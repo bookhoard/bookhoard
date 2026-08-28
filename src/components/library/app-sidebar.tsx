@@ -140,10 +140,10 @@ export function AppSidebar() {
       </button>
 
       <div className="flex h-20 items-center gap-2.5 px-5">
-        <Image src="/logo.png" alt="Bookhoard" width={36} height={36} className="size-9 shrink-0" />
+        <Image src="/logo.png" alt="Bookhoarder" width={36} height={36} className="size-9 shrink-0" />
         {!collapsed && (
           <span className="font-heading text-lg font-bold tracking-tight">
-            Bookhoard
+            Bookhoarder
           </span>
         )}
       </div>
