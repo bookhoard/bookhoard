@@ -55,3 +55,4 @@ and set `STORAGE_DRIVER=s3` in `.env.local` (see `.env.example` for the rest of 
 Bookhoarder is licensed under the [Elastic License 2.0](LICENSE). You're free
 to self-host, modify, and use it — including internally at a company — but
 you may not offer it to third parties as a hosted or managed service.
+
