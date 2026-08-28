@@ -19,6 +19,7 @@ import { BOOK_DRAG_MIME } from "@/lib/dnd";
 import { toast } from "@/components/ui/toast";
 import { ShelfFormDrawer } from "./shelf-form-drawer";
 import { ProfileMenu } from "./profile-menu";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -44,7 +45,9 @@ interface NavItem {
   icon: React.ElementType;
 }
 
-export function AppSidebar() {
+const SIDEBAR_COLLAPSED_COOKIE = "sidebar-collapsed";
+
+export function AppSidebar({ initialCollapsed }: { initialCollapsed: boolean }) {
   const pathname = usePathname();
   const router = useRouter();
   const {
@@ -66,7 +69,12 @@ export function AppSidebar() {
       : []),
   ];
 
-  const [collapsed, setCollapsed] = React.useState(false);
+  const [collapsed, setCollapsed] = React.useState(initialCollapsed);
+
+  React.useEffect(() => {
+    document.cookie = `${SIDEBAR_COLLAPSED_COOKIE}=${collapsed}; path=/; max-age=31536000; samesite=lax`;
+  }, [collapsed]);
+
   const [confirmDelete, setConfirmDelete] = React.useState<Shelf | null>(null);
   const [shelfDrawerOpen, setShelfDrawerOpen] = React.useState(false);
   const [editingShelf, setEditingShelf] = React.useState<Shelf | null>(null);
@@ -222,7 +230,8 @@ export function AppSidebar() {
               }}
               onDrop={handleShelfDrop(shelf)}
               className={cn(
-                "group flex items-center gap-2 rounded-lg pr-2 text-sm transition-colors",
+                "group flex items-center gap-2 rounded-lg text-sm transition-colors",
+                collapsed ? "justify-center" : "pr-2",
                 dragOverShelfId === shelf.id
                   ? "bg-accent text-accent-foreground ring-2 ring-ring"
                   : active
@@ -237,8 +246,23 @@ export function AppSidebar() {
                   collapsed && "justify-center px-0"
                 )}
               >
-                <span className={cn("size-2 shrink-0 rounded-full", shelf.color)} />
-                {!collapsed && <span className="truncate">{shelf.name}</span>}
+                {collapsed ? (
+                  <Avatar className="size-7 shrink-0">
+                    <AvatarFallback
+                      className={cn(
+                        shelf.color,
+                        "text-[11px] leading-none font-semibold text-white"
+                      )}
+                    >
+                      {shelf.name.trim().charAt(0).toUpperCase() || "?"}
+                    </AvatarFallback>
+                  </Avatar>
+                ) : (
+                  <>
+                    <span className={cn("size-2 shrink-0 rounded-full", shelf.color)} />
+                    <span className="truncate">{shelf.name}</span>
+                  </>
+                )}
               </Link>
               {!collapsed && (
                 <DropdownMenu>

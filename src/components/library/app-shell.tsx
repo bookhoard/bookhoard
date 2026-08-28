@@ -5,10 +5,16 @@ import { AppSidebar } from "./app-sidebar";
 import { AppHeader } from "./app-header";
 import { BookDetailDrawer } from "./book-detail-drawer";
 
-export function AppShell({ children }: { children: React.ReactNode }) {
+export function AppShell({
+  children,
+  initialSidebarCollapsed,
+}: {
+  children: React.ReactNode;
+  initialSidebarCollapsed: boolean;
+}) {
   return (
     <div className="relative flex h-screen overflow-hidden bg-background">
-      <AppSidebar />
+      <AppSidebar initialCollapsed={initialSidebarCollapsed} />
 
       <div className="flex flex-1 flex-col overflow-hidden">
         <AppHeader />

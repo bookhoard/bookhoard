@@ -1,3 +1,4 @@
+import { cookies } from "next/headers";
 import { readJson } from "@/lib/store";
 import type { BookRecord } from "@/lib/books/types";
 import { getActiveProfile, listProfiles } from "@/lib/profiles/store";
@@ -15,15 +16,17 @@ export default async function AppGroupLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const [records, profiles, activeProfile, settings] = await Promise.all([
+  const [records, profiles, activeProfile, settings, cookieStore] = await Promise.all([
     readJson<BookRecord[]>("index.json").then((r) => r ?? []),
     listProfiles(),
     getActiveProfile(),
     getSettings(),
+    cookies(),
   ]);
 
   const state = await getProfileState(activeProfile.id);
   const books = records.map((record) => applyProfileState(record, state[record.id]));
+  const sidebarCollapsed = cookieStore.get("sidebar-collapsed")?.value === "true";
 
   return (
     <LibraryShellProvider
@@ -33,7 +36,7 @@ export default async function AppGroupLayout({
       activeProfileId={activeProfile.id}
       settings={toPublicSettings(settings)}
     >
-      <AppShell>{children}</AppShell>
+      <AppShell initialSidebarCollapsed={sidebarCollapsed}>{children}</AppShell>
     </LibraryShellProvider>
   );
 }
