@@ -36,6 +36,7 @@ export default function RootLayout({
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
+          scriptProps={{ "data-cfasync": "false" }}
         >
           <TooltipProvider delay={200}>
             <Toaster>{children}</Toaster>
