@@ -7,38 +7,27 @@ on:
 permissions:
   contents: write
   packages: write
+  pull-requests: write
 
 jobs:
-  tag:
-    name: Bump version and tag
-    if: "!contains(github.event.head_commit.message, '[skip release]')"
+  release-please:
+    name: Release please
     runs-on: ubuntu-latest
     outputs:
-      new_tag: ${{ steps.tag.outputs.new_tag }}
+      release_created: ${{ steps.release.outputs.release_created }}
+      tag_name: ${{ steps.release.outputs.tag_name }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - name: Release please
+        id: release
+        uses: googleapis/release-please-action@v4
         with:
-          fetch-depth: 0
-
-      - name: Bump version and push tag
-        id: tag
-        uses: anothrNick/github-tag-action@1.75.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          WITH_V: true
-          DEFAULT_BUMP: patch
-          RELEASE_BRANCHES: main
-
-      - name: Create GitHub release
-        uses: softprops/action-gh-release@v3.0.2
-        with:
-          tag_name: ${{ steps.tag.outputs.new_tag }}
-          generate_release_notes: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+          release-type: node
 
   publish-image:
     name: Build and publish Docker image
-    needs: tag
+    needs: release-please
+    if: needs.release-please.outputs.release_created == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -60,14 +49,15 @@ jobs:
           context: .
           push: true
           tags: |
-            ghcr.io/${{ github.repository }}:${{ needs.tag.outputs.new_tag }}
+            ghcr.io/${{ github.repository }}:${{ needs.release-please.outputs.tag_name }}
             ghcr.io/${{ github.repository }}:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
   deploy-demo:
     name: Deploy demo to Cloudflare
-    needs: tag
+    needs: release-please
+    if: needs.release-please.outputs.release_created == 'true'
     runs-on: ubuntu-latest
     env:
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
