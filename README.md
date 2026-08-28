@@ -1,7 +1,20 @@
-# Bookhoard
+<p align="center">
+  <img src="public/logo.png" alt="Bookhoard" width="120" />
+</p>
 
-Self-hosted EPUB library. Object storage is the only persistence layer — no
-database, no volumes, no migrations.
+<h1 align="center">Bookhoard</h1>
+
+<p align="center">
+  Self-hosted EPUB library. Object storage is the only persistence layer —
+  no database, no volumes, no migrations.
+</p>
+
+<p align="center">
+  <a href="https://github.com/bookhoard/bookhoard/actions/workflows/ci.yml"><img src="https://github.com/bookhoard/bookhoard/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+  <a href="https://github.com/bookhoard/bookhoard/releases"><img src="https://img.shields.io/github/v/release/bookhoard/bookhoard" alt="Latest release"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-Elastic--2.0-blue" alt="License"></a>
+  <a href="https://bookhoard.dev"><img src="https://img.shields.io/badge/website-bookhoard.dev-orange" alt="Website"></a>
+</p>
 
 ## Quickstart (Docker)
 
@@ -33,8 +46,9 @@ and set `STORAGE_DRIVER=s3` in `.env.local` (see `.env.example` for the rest of 
   passwords
 - Metadata lookup and cover fetching via Open Library, with manual editing
 - Trending books, full-text library search, and send-to-e-reader over SMTP
-- Pluggable storage driver: local filesystem or S3-compatible object storage
-  (see `docker-compose.yml` for a MinIO-backed setup)
+- Pluggable storage driver: local filesystem or S3-compatible object storage,
+  including a configurable directory prefix for sharing a bucket with other
+  apps (see `docker-compose.yml` for a MinIO-backed setup)
 
 ## License
 
