@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.0](https://github.com/bookhoard/bookhoarder/compare/v0.1.1...v0.2.0) (2026-08-29)
+
+
+### Features
+
+* add an OPDS catalog feed ([f022432](https://github.com/bookhoard/bookhoarder/commit/f0224321f549c628274e83d03325e2770abc81ed))
+
 ## [0.1.1](https://github.com/bookhoard/bookhoarder/compare/v0.1.0...v0.1.1) (2026-08-29)
 
 
