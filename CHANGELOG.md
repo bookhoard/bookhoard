@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.0](https://github.com/bookhoard/bookhoarder/compare/v0.5.0...v0.6.0) (2026-08-29)
+
+
+### Features
+
+* add logo greeting animation on sidebar load ([f221e9e](https://github.com/bookhoard/bookhoarder/commit/f221e9e0c394076fecdb9e6f4ca3649bde7d5ef0))
+
 ## [0.5.0](https://github.com/bookhoard/bookhoarder/compare/v0.4.0...v0.5.0) (2026-08-29)
 
 
