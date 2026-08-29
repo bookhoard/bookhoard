@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.7.0](https://github.com/bookhoard/bookhoarder/compare/v0.6.0...v0.7.0) (2026-08-29)
+
+
+### Features
+
+* add sitemap.xml for the public demo ([67230c4](https://github.com/bookhoard/bookhoarder/commit/67230c441b5bbfbce4d8ca91f46b221d42176ad8))
+
 ## [0.6.0](https://github.com/bookhoard/bookhoarder/compare/v0.5.0...v0.6.0) (2026-08-29)
 
 
