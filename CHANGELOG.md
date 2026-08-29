@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.0](https://github.com/bookhoard/bookhoarder/compare/v0.3.0...v0.4.0) (2026-08-29)
+
+
+### Features
+
+* implement dynamic theme support with cookie synchronization ([2a4b2ca](https://github.com/bookhoard/bookhoarder/commit/2a4b2ca915fe9867b514a28e1d8889042549d326))
+
 ## [0.3.0](https://github.com/bookhoard/bookhoarder/compare/v0.2.0...v0.3.0) (2026-08-29)
 
 
