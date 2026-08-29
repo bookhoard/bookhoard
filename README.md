@@ -14,6 +14,7 @@
   <a href="https://github.com/bookhoard/bookhoarder/releases"><img src="https://img.shields.io/github/v/release/bookhoard/bookhoarder" alt="Latest release"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-Elastic--2.0-blue" alt="License"></a>
   <a href="https://bookhoarder.dev"><img src="https://img.shields.io/badge/website-bookhoarder.dev-orange" alt="Website"></a>
+  <a href="https://docs.bookhoarder.dev"><img src="https://img.shields.io/badge/docs-docs.bookhoarder.dev-blue" alt="Documentation"></a>
 </p>
 
 ## Quickstart (Docker)
@@ -37,6 +38,10 @@ Open http://localhost:3000.
 
 To develop against S3/MinIO instead of the local driver, run `docker compose up minio minio-init`
 and set `STORAGE_DRIVER=s3` in `.env.local` (see `.env.example` for the rest of the S3 vars).
+
+## Documentation
+
+Full docs are at [docs.bookhoarder.dev](https://docs.bookhoarder.dev) (source: [bookhoard/docs](https://github.com/bookhoard/docs)).
 
 ## Features
 
