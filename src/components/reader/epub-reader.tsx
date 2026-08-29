@@ -253,7 +253,7 @@ export function EpubReader({ book, initialTocOpen = false }: EpubReaderProps) {
   }, []);
 
   return (
-    <div className="flex h-screen flex-col bg-background">
+    <div className="flex h-dvh flex-col bg-background">
       <header className="flex h-14 shrink-0 items-center justify-between border-b border-border px-4">
         <div className="flex min-w-0 items-center gap-2">
           <Button

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { cookies } from "next/headers";
 import { Inter, Plus_Jakarta_Sans } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -44,13 +45,22 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const cookieStore = await cookies();
+  const themeCookie = cookieStore.get("theme")?.value;
+  const htmlClassName = themeCookie === "dark" ? "dark" : undefined;
+
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html
+      lang="en"
+      className={htmlClassName}
+      style={themeCookie === "dark" || themeCookie === "light" ? { colorScheme: themeCookie } : undefined}
+      suppressHydrationWarning
+    >
       <body
         className={`${inter.variable} ${plusJakartaSans.variable} antialiased`}
       >
