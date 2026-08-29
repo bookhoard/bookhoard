@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { useRouter } from "next/navigation";
-import { ChevronDown, Check, Lock, Loader2, Settings } from "lucide-react";
+import { ChevronDown, Check, Lock, Loader2, Settings, FileText } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -136,6 +136,12 @@ export function ProfileMenu({ collapsed = false }: ProfileMenuProps) {
             ))}
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
+          <DropdownMenuItem
+            render={<a href="https://docs.bookhoarder.dev" target="_blank" rel="noopener noreferrer" />}
+          >
+            <FileText className="size-3.5" />
+            Documentation
+          </DropdownMenuItem>
           <DropdownMenuItem onClick={() => router.push("/settings")}>
             <Settings className="size-3.5" />
             Settings
