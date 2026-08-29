@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.1](https://github.com/bookhoard/bookhoarder/compare/v0.1.0...v0.1.1) (2026-08-29)
+
+
+### Bug Fixes
+
+* add OpenGraph/Twitter metadata and demo-aware robots.txt ([dfdcf2c](https://github.com/bookhoard/bookhoarder/commit/dfdcf2cdcabf6c202015abd9c6d1a0861496ee38))
+
 ## [0.1.0](https://github.com/bookhoard/bookhoarder/compare/v0.0.24...v0.1.0) (2026-08-28)
 
 
