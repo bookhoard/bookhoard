@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.0](https://github.com/bookhoard/bookhoarder/compare/v0.4.0...v0.5.0) (2026-08-29)
+
+
+### Features
+
+* enhance library settings with pagination and search result limits ([7a5ed34](https://github.com/bookhoard/bookhoarder/commit/7a5ed342a7411822f08ceec170d9f54e568627bb))
+
 ## [0.4.0](https://github.com/bookhoard/bookhoarder/compare/v0.3.0...v0.4.0) (2026-08-29)
 
 
