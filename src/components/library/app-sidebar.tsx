@@ -84,6 +84,14 @@ export function AppSidebar({
     document.cookie = `${SIDEBAR_COLLAPSED_COOKIE}=${collapsed}; path=/; max-age=31536000; samesite=lax`;
   }, [collapsed]);
 
+  // Greets with the logo already "peeking up" (its hover position) on load,
+  // then settles it back down after a moment.
+  const [logoGreeting, setLogoGreeting] = React.useState(true);
+  React.useEffect(() => {
+    const timeout = setTimeout(() => setLogoGreeting(false), 1000);
+    return () => clearTimeout(timeout);
+  }, []);
+
   // A tap on a nav/shelf link should close the mobile drawer, not leave it
   // covering the page it just navigated to.
   React.useEffect(() => {
@@ -200,7 +208,10 @@ export function AppSidebar({
             alt="Bookhoarder"
             width={36}
             height={36}
-            className="absolute inset-0 size-full translate-y-[17%] object-contain transition-transform duration-300 ease-out group-hover:-translate-y-[1%]"
+            className={cn(
+              "absolute inset-0 size-full object-contain transition-transform duration-300 ease-out group-hover:-translate-y-[1%]",
+              logoGreeting ? "-translate-y-[1%]" : "translate-y-[17%]"
+            )}
           />
         </div>
         {!effectiveCollapsed && (
