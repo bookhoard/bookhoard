@@ -51,6 +51,8 @@ Full docs are at [docs.bookhoarder.dev](https://docs.bookhoarder.dev) (source: [
   passwords
 - Metadata lookup and cover fetching via Open Library, with manual editing
 - Trending books, full-text library search, and send-to-e-reader over SMTP
+- OPDS catalog feed (`/opds`) for browsing and downloading straight from any
+  OPDS-compatible e-reader app — the URL is in Settings → E-Reader Email
 - Pluggable storage driver: local filesystem or S3-compatible object storage,
   including a configurable directory prefix for sharing a bucket with other
   apps (see `docker-compose.yml` for a MinIO-backed setup)
