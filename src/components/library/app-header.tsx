@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Search, Plus, Loader2 } from "lucide-react";
+import { Search, Plus, Loader2, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Tooltip,
@@ -13,7 +13,7 @@ import { cn } from "@/lib/utils";
 import { useLibraryShell } from "./library-shell-context";
 import { DEMO_MODE } from "@/lib/demo-mode";
 
-export function AppHeader() {
+export function AppHeader({ onOpenMobileMenu }: { onOpenMobileMenu: () => void }) {
   const { uploading, uploadFile } = useLibraryShell();
   const fileInputRef = React.useRef<HTMLInputElement>(null);
   const [searchOpen, setSearchOpen] = React.useState(false);
@@ -37,15 +37,24 @@ export function AppHeader() {
   };
 
   return (
-    <header className="flex h-20 shrink-0 items-center justify-between gap-4 px-8">
+    <header className="flex h-20 shrink-0 items-center gap-2 px-4 md:gap-4 md:px-8">
+      <button
+        type="button"
+        onClick={onOpenMobileMenu}
+        aria-label="Open menu"
+        className="flex size-9 shrink-0 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-accent/60 hover:text-foreground md:hidden"
+      >
+        <Menu className="size-5" />
+      </button>
+
       <button
         type="button"
         onClick={() => setSearchOpen(true)}
-        className="flex w-full max-w-sm items-center gap-2.5 rounded-full border border-border bg-muted/40 px-4 py-2.5 text-left text-sm text-muted-foreground transition-colors hover:bg-muted/70"
+        className="flex min-w-0 flex-1 items-center gap-2.5 rounded-full border border-border bg-muted/40 px-4 py-2.5 text-left text-sm text-muted-foreground transition-colors hover:bg-muted/70 md:max-w-sm"
       >
         <Search className="size-4 shrink-0" />
-        <span className="flex-1">Search your library…</span>
-        <kbd className="shrink-0 rounded border border-border bg-background px-1.5 py-0.5 font-sans text-[10px] font-medium">
+        <span className="flex-1 truncate">Search your library…</span>
+        <kbd className="hidden shrink-0 rounded border border-border bg-background px-1.5 py-0.5 font-sans text-[10px] font-medium sm:block">
           ⌘K
         </kbd>
       </button>

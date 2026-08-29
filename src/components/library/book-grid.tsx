@@ -44,7 +44,7 @@ export function BookGrid({
           </div>
         </div>
       ) : (
-        <div className="flex flex-wrap gap-3">
+        <div className="grid grid-cols-3 gap-3 sm:flex sm:flex-wrap">
           {leadingSlot}
           {books.map((book) => (
             <BookCard

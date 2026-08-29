@@ -13,6 +13,7 @@ import {
   Pencil,
   Trash2,
   TrendingUp,
+  X,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { BOOK_DRAG_MIME } from "@/lib/dnd";
@@ -47,7 +48,15 @@ interface NavItem {
 
 const SIDEBAR_COLLAPSED_COOKIE = "sidebar-collapsed";
 
-export function AppSidebar({ initialCollapsed }: { initialCollapsed: boolean }) {
+export function AppSidebar({
+  initialCollapsed,
+  mobileOpen,
+  onCloseMobile,
+}: {
+  initialCollapsed: boolean;
+  mobileOpen: boolean;
+  onCloseMobile: () => void;
+}) {
   const pathname = usePathname();
   const router = useRouter();
   const {
@@ -74,6 +83,13 @@ export function AppSidebar({ initialCollapsed }: { initialCollapsed: boolean }) 
   React.useEffect(() => {
     document.cookie = `${SIDEBAR_COLLAPSED_COOKIE}=${collapsed}; path=/; max-age=31536000; samesite=lax`;
   }, [collapsed]);
+
+  // A tap on a nav/shelf link should close the mobile drawer, not leave it
+  // covering the page it just navigated to.
+  React.useEffect(() => {
+    onCloseMobile();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname]);
 
   const [confirmDelete, setConfirmDelete] = React.useState<Shelf | null>(null);
   const [shelfDrawerOpen, setShelfDrawerOpen] = React.useState(false);
@@ -129,22 +145,45 @@ export function AppSidebar({ initialCollapsed }: { initialCollapsed: boolean }) 
     if (pathname === `/shelf/${id}`) router.push("/");
   };
 
+  // Mobile drawer always shows the full sidebar — the icon-rail "collapsed"
+  // state is a desktop-only preference and would look broken (no labels) as
+  // a mobile overlay.
+  const effectiveCollapsed = mobileOpen ? false : collapsed;
+
   return (
-    <aside
-      className={cn(
-        "relative flex h-screen shrink-0 flex-col border-r border-border bg-sidebar transition-[width] duration-200",
-        collapsed ? "w-[76px]" : "w-64"
+    <>
+      {mobileOpen && (
+        <div
+          onClick={onCloseMobile}
+          aria-hidden="true"
+          className="fixed inset-0 z-40 bg-black/50 md:hidden"
+        />
       )}
-    >
+      <aside
+        className={cn(
+          "fixed inset-y-0 left-0 z-50 flex h-screen w-64 shrink-0 flex-col border-r border-border bg-sidebar transition-transform duration-200 md:relative md:z-auto md:translate-x-0 md:transition-[width]",
+          mobileOpen ? "translate-x-0" : "-translate-x-full",
+          effectiveCollapsed ? "md:w-[76px]" : "md:w-64"
+        )}
+      >
       <button
         type="button"
         onClick={() => setCollapsed((c) => !c)}
         aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
-        className="absolute top-6 -right-3 z-10 flex size-6 items-center justify-center rounded-full border border-border bg-background text-muted-foreground shadow-sm hover:text-foreground"
+        className="absolute top-6 -right-3 z-10 hidden size-6 items-center justify-center rounded-full border border-border bg-background text-muted-foreground shadow-sm hover:text-foreground md:flex"
       >
         <ChevronLeft
           className={cn("size-3.5 transition-transform", collapsed && "rotate-180")}
         />
+      </button>
+
+      <button
+        type="button"
+        onClick={onCloseMobile}
+        aria-label="Close menu"
+        className="absolute top-6 right-4 z-10 flex size-8 items-center justify-center rounded-full text-muted-foreground hover:bg-accent/60 hover:text-foreground md:hidden"
+      >
+        <X className="size-4" />
       </button>
 
       <div className="flex h-20 items-center gap-2.5 px-5">
@@ -164,7 +203,7 @@ export function AppSidebar({ initialCollapsed }: { initialCollapsed: boolean }) 
             className="absolute inset-0 size-full translate-y-[17%] object-contain transition-transform duration-300 ease-out group-hover:-translate-y-[1%]"
           />
         </div>
-        {!collapsed && (
+        {!effectiveCollapsed && (
           <span className="font-heading text-lg font-bold tracking-tight">
             Bookhoarder
           </span>
@@ -183,11 +222,11 @@ export function AppSidebar({ initialCollapsed }: { initialCollapsed: boolean }) 
                 active
                   ? "bg-accent text-accent-foreground"
                   : "text-muted-foreground hover:bg-accent/60 hover:text-foreground",
-                collapsed && "justify-center px-0"
+                effectiveCollapsed && "justify-center px-0"
               )}
             >
               <item.icon className="size-[18px] shrink-0" strokeWidth={2} />
-              {!collapsed && item.label}
+              {!effectiveCollapsed && item.label}
             </Link>
           );
         })}
@@ -195,7 +234,7 @@ export function AppSidebar({ initialCollapsed }: { initialCollapsed: boolean }) 
 
       <div className="mt-10 flex flex-col gap-1 px-3">
         <div className="flex items-center justify-between px-3 pb-2">
-          {!collapsed && (
+          {!effectiveCollapsed && (
             <p className="text-xs font-semibold tracking-wider text-muted-foreground">
               SHELVES
             </p>
@@ -206,7 +245,7 @@ export function AppSidebar({ initialCollapsed }: { initialCollapsed: boolean }) 
             aria-label="New shelf"
             className={cn(
               "flex size-5 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-accent/60 hover:text-foreground",
-              collapsed && "mx-auto"
+              effectiveCollapsed && "mx-auto"
             )}
           >
             <Plus className="size-3.5" />
@@ -231,7 +270,7 @@ export function AppSidebar({ initialCollapsed }: { initialCollapsed: boolean }) 
               onDrop={handleShelfDrop(shelf)}
               className={cn(
                 "group flex items-center gap-2 rounded-lg text-sm transition-colors",
-                collapsed ? "justify-center" : "pr-2",
+                effectiveCollapsed ? "justify-center" : "pr-2",
                 dragOverShelfId === shelf.id
                   ? "bg-accent text-accent-foreground ring-2 ring-ring"
                   : active
@@ -243,10 +282,10 @@ export function AppSidebar({ initialCollapsed }: { initialCollapsed: boolean }) 
                 href={`/shelf/${shelf.id}`}
                 className={cn(
                   "flex flex-1 items-center gap-3 overflow-hidden px-3 py-2 text-left",
-                  collapsed && "justify-center px-0"
+                  effectiveCollapsed && "justify-center px-0"
                 )}
               >
-                {collapsed ? (
+                {effectiveCollapsed ? (
                   <Avatar className="size-7 shrink-0">
                     <AvatarFallback
                       className={cn(
@@ -264,7 +303,7 @@ export function AppSidebar({ initialCollapsed }: { initialCollapsed: boolean }) 
                   </>
                 )}
               </Link>
-              {!collapsed && (
+              {!effectiveCollapsed && (
                 <DropdownMenu>
                   <DropdownMenuTrigger
                     render={
@@ -296,13 +335,13 @@ export function AppSidebar({ initialCollapsed }: { initialCollapsed: boolean }) 
           );
         })}
 
-        {shelves.length === 0 && !collapsed && (
+        {shelves.length === 0 && !effectiveCollapsed && (
           <p className="px-3 text-xs text-muted-foreground">No shelves yet.</p>
         )}
       </div>
 
       <div className="mt-auto border-t border-border p-3">
-        <ProfileMenu collapsed={collapsed} />
+        <ProfileMenu collapsed={effectiveCollapsed} />
       </div>
 
       <AlertDialog
@@ -341,6 +380,7 @@ export function AppSidebar({ initialCollapsed }: { initialCollapsed: boolean }) 
         onCreate={createShelf}
         onEdit={handleShelfEdited}
       />
-    </aside>
+      </aside>
+    </>
   );
 }
