@@ -16,6 +16,8 @@ export async function getSettings(): Promise<AppSettings> {
 export interface SettingsPatch {
   metadataCandidateLimit?: number;
   trendingEnabled?: boolean;
+  booksPerPage?: number;
+  searchResultLimit?: number;
   smtp?: Partial<SmtpSettings>;
 }
 

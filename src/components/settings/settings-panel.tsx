@@ -3,7 +3,7 @@
 import * as React from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useTheme } from "next-themes";
-import { User, Moon, Sparkles, TrendingUp, Mail, Loader2, Users, Eye, EyeOff, Copy } from "lucide-react";
+import { User, Moon, Sparkles, TrendingUp, Mail, Loader2, Users, Eye, EyeOff, Copy, LayoutGrid } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -20,7 +20,7 @@ interface SettingsPanelProps {
   profile: PublicProfile;
 }
 
-type Category = "profile" | "theme" | "profiles" | "metadata" | "trending" | "email";
+type Category = "profile" | "theme" | "profiles" | "library" | "metadata" | "trending" | "email";
 
 const CATEGORIES: {
   id: Category;
@@ -31,6 +31,7 @@ const CATEGORIES: {
   { id: "profile", label: "Profile", icon: User },
   { id: "profiles", label: "Manage Profiles", icon: Users, adminOnly: true },
   { id: "theme", label: "Theme", icon: Moon },
+  { id: "library", label: "Library", icon: LayoutGrid, adminOnly: true },
   { id: "metadata", label: "Metadata", icon: Sparkles, adminOnly: true },
   { id: "trending", label: "Trending", icon: TrendingUp, adminOnly: true },
   { id: "email", label: "E-Reader Email", icon: Mail, adminOnly: true },
@@ -138,6 +139,10 @@ export function SettingsPanel({ settings, profile }: SettingsPanelProps) {
   const [savingPassword, setSavingPassword] = React.useState(false);
   const [removingPassword, setRemovingPassword] = React.useState(false);
 
+  // library
+  const [booksPerPage, setBooksPerPage] = React.useState(settings.booksPerPage);
+  const [searchResultLimit, setSearchResultLimit] = React.useState(settings.searchResultLimit);
+
   // metadata
   const [candidateLimit, setCandidateLimit] = React.useState(settings.metadataCandidateLimit);
 
@@ -233,6 +238,36 @@ export function SettingsPanel({ settings, profile }: SettingsPanelProps) {
       toast.add({ title: "Couldn't remove password", description: (e as Error).message, type: "error" });
     } finally {
       setRemovingPassword(false);
+    }
+  };
+
+  const saveBooksPerPage = async (value?: number) => {
+    try {
+      const res = await fetch("/api/settings", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ booksPerPage: value ?? booksPerPage }),
+      });
+      if (!res.ok) throw new Error();
+      notifySaved();
+      router.refresh();
+    } catch {
+      toast.add({ title: "Couldn't save settings", type: "error" });
+    }
+  };
+
+  const saveSearchResultLimit = async (value?: number) => {
+    try {
+      const res = await fetch("/api/settings", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ searchResultLimit: value ?? searchResultLimit }),
+      });
+      if (!res.ok) throw new Error();
+      notifySaved();
+      router.refresh();
+    } catch {
+      toast.add({ title: "Couldn't save settings", type: "error" });
     }
   };
 
@@ -477,6 +512,52 @@ export function SettingsPanel({ settings, profile }: SettingsPanelProps) {
             activeProfileId={activeProfileId}
             onChanged={() => router.refresh()}
           />
+        )}
+
+        {category === "library" && (
+          <SectionCard
+            title="Library"
+            description="Controls pagination in the Library and Reading Now grids."
+          >
+            <SettingRow
+              title="Books per page"
+              description="How many books to show per page before Previous/Next appears (10–500)."
+            >
+              <Input
+                type="number"
+                min={10}
+                max={500}
+                value={booksPerPage}
+                onChange={(e) =>
+                  setBooksPerPage(Math.min(500, Math.max(10, Number(e.target.value) || 10)))
+                }
+                onBlur={() => saveBooksPerPage()}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") (e.target as HTMLInputElement).blur();
+                }}
+                className="w-20"
+              />
+            </SettingRow>
+            <SettingRow
+              title="Search results"
+              description="How many matches the ⌘K search dialog shows before nudging you to narrow the query (1–100)."
+            >
+              <Input
+                type="number"
+                min={1}
+                max={100}
+                value={searchResultLimit}
+                onChange={(e) =>
+                  setSearchResultLimit(Math.min(100, Math.max(1, Number(e.target.value) || 1)))
+                }
+                onBlur={() => saveSearchResultLimit()}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") (e.target as HTMLInputElement).blur();
+                }}
+                className="w-20"
+              />
+            </SettingRow>
+          </SectionCard>
         )}
 
         {category === "metadata" && (

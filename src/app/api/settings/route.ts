@@ -38,6 +38,28 @@ export async function PATCH(request: Request) {
     patch.trendingEnabled = body.trendingEnabled;
   }
 
+  if (typeof body.booksPerPage === "number") {
+    const n = Math.round(body.booksPerPage);
+    if (n < 10 || n > 500) {
+      return NextResponse.json(
+        { error: "booksPerPage must be between 10 and 500" },
+        { status: 400 }
+      );
+    }
+    patch.booksPerPage = n;
+  }
+
+  if (typeof body.searchResultLimit === "number") {
+    const n = Math.round(body.searchResultLimit);
+    if (n < 1 || n > 100) {
+      return NextResponse.json(
+        { error: "searchResultLimit must be between 1 and 100" },
+        { status: 400 }
+      );
+    }
+    patch.searchResultLimit = n;
+  }
+
   if (body.smtp) {
     const { clearPassword, pass, ...rest } = body.smtp;
     patch.smtp = { ...rest };

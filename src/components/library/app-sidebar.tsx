@@ -186,8 +186,8 @@ export function AppSidebar({
         <X className="size-4" />
       </button>
 
-      <div className="flex h-20 items-center gap-2.5 px-5">
-        <div className="group relative size-9 shrink-0 overflow-hidden">
+      <Link href="/" className="group flex h-20 items-center gap-2.5 px-5">
+        <div className="relative size-9 shrink-0 overflow-hidden">
           <Image
             src="/logo/body.png"
             alt=""
@@ -208,7 +208,7 @@ export function AppSidebar({
             Bookhoarder
           </span>
         )}
-      </div>
+      </Link>
 
       <nav className="flex flex-col gap-1 px-3 pt-2">
         {navItems.map((item) => {
@@ -265,6 +265,10 @@ export function AppSidebar({
               }}
               onDragLeave={(e) => {
                 if (!e.dataTransfer.types.includes(BOOK_DRAG_MIME)) return;
+                // dragleave fires when moving onto a child (the Link, avatar,
+                // or dropdown button) too — only clear the highlight once the
+                // pointer has actually left the row, or it flickers.
+                if (e.currentTarget.contains(e.relatedTarget as Node)) return;
                 setDragOverShelfId((prev) => (prev === shelf.id ? null : prev));
               }}
               onDrop={handleShelfDrop(shelf)}
