@@ -3,7 +3,7 @@
 import * as React from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useTheme } from "next-themes";
-import { User, Moon, Sparkles, TrendingUp, Mail, Loader2, Users, Eye, EyeOff } from "lucide-react";
+import { User, Moon, Sparkles, TrendingUp, Mail, Loader2, Users, Eye, EyeOff, Copy } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -88,6 +88,9 @@ export function SettingsPanel({ settings, profile }: SettingsPanelProps) {
   const { profiles, activeProfileId } = useLibraryShell();
   const [mounted, setMounted] = React.useState(false);
   React.useEffect(() => setMounted(true), []);
+  // Needs an absolute URL since it's copied into an app on a different
+  // device — only resolvable client-side, hence the mounted guard.
+  const opdsUrl = mounted ? `${window.location.origin}/opds` : "";
   const isAdmin = profile.role === "admin";
   const visibleCategories = CATEGORIES.filter((c) => !c.adminOnly || isAdmin);
   const tabParam = searchParams.get("tab");
@@ -518,6 +521,29 @@ export function SettingsPanel({ settings, profile }: SettingsPanelProps) {
         )}
 
         {category === "email" && (
+          <div className="flex flex-col gap-6">
+          <SectionCard
+            title="OPDS Catalog"
+            description="Add this URL to an OPDS-compatible e-reader app (KOReader, Moon+ Reader, etc.) to browse and download books directly, no email needed."
+          >
+            <SettingRow title="Catalog URL">
+              <div className="flex w-full items-center gap-2 sm:w-auto">
+                <Input readOnly value={opdsUrl} className="w-full sm:w-72" />
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="icon"
+                  aria-label="Copy catalog URL"
+                  onClick={() => {
+                    navigator.clipboard.writeText(opdsUrl);
+                    toast.add({ title: "Copied", type: "success" });
+                  }}
+                >
+                  <Copy className="size-4" />
+                </Button>
+              </div>
+            </SettingRow>
+          </SectionCard>
           <SectionCard
             title="E-Reader Email (SMTP)"
             description="Server-wide outgoing mail settings, used to deliver books to any profile's e-reader email."
@@ -637,6 +663,7 @@ export function SettingsPanel({ settings, profile }: SettingsPanelProps) {
               />
             </SettingRow>
           </SectionCard>
+          </div>
         )}
       </div>
     </div>
