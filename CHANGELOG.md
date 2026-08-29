@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.0](https://github.com/bookhoard/bookhoarder/compare/v0.2.0...v0.3.0) (2026-08-29)
+
+
+### Features
+
+* add documentation link to profile menu ([9f1075a](https://github.com/bookhoard/bookhoarder/commit/9f1075a55f3e1a9265ab06fc2aaca3da27e50ec4))
+
 ## [0.2.0](https://github.com/bookhoard/bookhoarder/compare/v0.1.1...v0.2.0) (2026-08-29)
 
 
