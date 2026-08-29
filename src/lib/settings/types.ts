@@ -14,12 +14,18 @@ export interface AppSettings {
   /** how many candidates the Fetch Metadata drawer requests from Open Library */
   metadataCandidateLimit: number;
   trendingEnabled: boolean;
+  /** how many books the Library/Reading Now grids show per page */
+  booksPerPage: number;
+  /** how many results the ⌘K search dialog shows before "keep typing to narrow it down" */
+  searchResultLimit: number;
   smtp: SmtpSettings;
 }
 
 export const DEFAULT_SETTINGS: AppSettings = {
   metadataCandidateLimit: 10,
   trendingEnabled: true,
+  booksPerPage: 50,
+  searchResultLimit: 10,
   smtp: {},
 };
 

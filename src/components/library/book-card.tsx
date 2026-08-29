@@ -11,7 +11,7 @@ import {
   Send,
   Trash2,
 } from "lucide-react";
-import { BookCover } from "./book-cover";
+import { BookTile, bookTileClassName } from "./book-tile";
 import { EditBookDrawer } from "./edit-book-drawer";
 import { RateDialog } from "./rate-dialog";
 import { FetchMetadataDialog } from "./fetch-metadata-dialog";
@@ -97,29 +97,25 @@ export function BookCard({ book, selected, onSelect, actions }: BookCardProps) {
                 onSelect(book);
               }
             }}
-            className={cn(
-              "group w-full cursor-pointer overflow-hidden rounded-xl p-2 text-left transition-colors hover:bg-accent/60 sm:w-40 sm:shrink-0",
-              selected && "bg-accent"
-            )}
+            className={bookTileClassName(selected)}
           />
         }
       >
-        <div className="relative">
-          <BookCover title={book.title} coverUrl={book.coverUrl} />
-
-          {book.read && (
-            <span
-              title="Read"
-              className="absolute bottom-1.5 right-1.5 flex size-5 items-center justify-center rounded-full bg-foreground text-background shadow-sm"
-            >
-              <Check className="size-3" strokeWidth={3} />
-            </span>
-          )}
-        </div>
-        <p className="mt-3 line-clamp-1 text-sm font-semibold">{book.title}</p>
-        <p className="mt-0.5 line-clamp-1 text-xs text-muted-foreground">
-          {book.author}
-        </p>
+        <BookTile
+          title={book.title}
+          author={book.author}
+          coverUrl={book.coverUrl}
+          badge={
+            book.read && (
+              <span
+                title="Read"
+                className="absolute bottom-1.5 right-1.5 flex size-5 items-center justify-center rounded-full bg-foreground text-background shadow-sm"
+              >
+                <Check className="size-3" strokeWidth={3} />
+              </span>
+            )
+          }
+        />
       </ContextMenuTrigger>
 
       <ContextMenuContent className="w-44">

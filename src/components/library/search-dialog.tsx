@@ -12,7 +12,8 @@ interface SearchDialogProps {
 }
 
 export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
-  const { books, setSelected } = useLibraryShell();
+  const { books, setSelected, settings } = useLibraryShell();
+  const resultLimit = settings.searchResultLimit;
   const [query, setQuery] = React.useState("");
   const inputRef = React.useRef<HTMLInputElement>(null);
 
@@ -24,12 +25,13 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
   }, [open]);
 
   const q = query.trim().toLowerCase();
-  const results = q
+  const matches = q
     ? books.filter(
         (book) =>
           book.title.toLowerCase().includes(q) || book.author.toLowerCase().includes(q)
       )
     : [];
+  const results = matches.slice(0, resultLimit);
 
   const pick = (book: (typeof books)[number]) => {
     setSelected(book);
@@ -83,6 +85,11 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
                   </button>
                 </li>
               ))}
+              {matches.length > resultLimit && (
+                <li className="px-2 py-2 text-center text-xs text-muted-foreground">
+                  Showing {resultLimit} of {matches.length} matches — keep typing to narrow it down.
+                </li>
+              )}
             </ul>
           )}
         </div>
