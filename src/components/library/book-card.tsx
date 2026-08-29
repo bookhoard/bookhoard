@@ -98,7 +98,7 @@ export function BookCard({ book, selected, onSelect, actions }: BookCardProps) {
               }
             }}
             className={cn(
-              "group w-40 shrink-0 cursor-pointer overflow-hidden rounded-xl p-2 text-left transition-colors hover:bg-accent/60",
+              "group w-full cursor-pointer overflow-hidden rounded-xl p-2 text-left transition-colors hover:bg-accent/60 sm:w-40 sm:shrink-0",
               selected && "bg-accent"
             )}
           />

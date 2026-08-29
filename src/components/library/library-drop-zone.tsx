@@ -77,7 +77,7 @@ export function LibraryDropZone({
 /** Empty, dashed book-slot shown in the grid while a file is being dragged over. */
 export function UploadPlaceholderCard() {
   return (
-    <div className="flex w-40 shrink-0 flex-col items-center gap-2 rounded-xl p-2 text-left">
+    <div className="flex w-full flex-col items-center gap-2 rounded-xl p-2 text-left sm:w-40 sm:shrink-0">
       <div className="flex aspect-[2/3] w-full shrink-0 animate-pulse flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed border-primary bg-accent/20">
         <UploadCloud className="size-6 text-primary" strokeWidth={1.5} />
       </div>

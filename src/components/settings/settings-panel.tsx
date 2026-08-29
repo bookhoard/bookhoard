@@ -46,14 +46,14 @@ function SettingRow({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex items-center justify-between gap-6 border-b border-border py-4 last:border-b-0">
+    <div className="flex flex-col gap-3 border-b border-border py-4 last:border-b-0 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
       <div className="min-w-0">
         <p className="text-sm font-medium">{title}</p>
         {description && (
           <p className="mt-0.5 text-xs text-muted-foreground">{description}</p>
         )}
       </div>
-      <div className="shrink-0">{children}</div>
+      <div className="sm:shrink-0">{children}</div>
     </div>
   );
 }
@@ -287,15 +287,15 @@ export function SettingsPanel({ settings, profile }: SettingsPanelProps) {
   };
 
   return (
-    <div className="flex flex-1 gap-8">
-      <nav className="flex w-48 shrink-0 flex-col gap-1">
+    <div className="flex flex-1 flex-col gap-6 md:flex-row md:gap-8">
+      <nav className="-mx-4 flex gap-1 overflow-x-auto px-4 pb-1 md:mx-0 md:w-48 md:shrink-0 md:flex-col md:overflow-visible md:px-0 md:pb-0">
         {visibleCategories.map((c) => (
           <button
             key={c.id}
             type="button"
             onClick={() => selectCategory(c.id)}
             className={cn(
-              "flex items-center gap-2.5 rounded-lg px-3 py-2 text-left text-sm font-medium transition-colors",
+              "flex shrink-0 items-center gap-2.5 rounded-lg px-3 py-2 text-left text-sm font-medium whitespace-nowrap transition-colors",
               category === c.id
                 ? "bg-accent text-accent-foreground"
                 : "text-muted-foreground hover:bg-accent/60 hover:text-foreground"
@@ -353,7 +353,7 @@ export function SettingsPanel({ settings, profile }: SettingsPanelProps) {
                   onKeyDown={(e) => {
                     if (e.key === "Enter") (e.target as HTMLInputElement).blur();
                   }}
-                  className="w-56"
+                  className="w-full sm:w-56"
                 />
               </SettingRow>
               <SettingRow
@@ -371,7 +371,7 @@ export function SettingsPanel({ settings, profile }: SettingsPanelProps) {
                     if (e.key === "Enter") (e.target as HTMLInputElement).blur();
                   }}
                   placeholder="you@kindle.com"
-                  className="w-56"
+                  className="w-full sm:w-56"
                 />
               </SettingRow>
             </SectionCard>
@@ -403,7 +403,7 @@ export function SettingsPanel({ settings, profile }: SettingsPanelProps) {
                     type="password"
                     value={currentPassword}
                     onChange={(e) => setCurrentPassword(e.target.value)}
-                    className="w-56"
+                    className="w-full sm:w-56"
                   />
                 </SettingRow>
               )}
@@ -413,7 +413,7 @@ export function SettingsPanel({ settings, profile }: SettingsPanelProps) {
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
                   placeholder="At least 4 characters"
-                  className="w-56"
+                  className="w-full sm:w-56"
                 />
               </SettingRow>
               <SettingRow title="Confirm password">
@@ -425,7 +425,7 @@ export function SettingsPanel({ settings, profile }: SettingsPanelProps) {
                   onKeyDown={(e) => {
                     if (e.key === "Enter") (e.target as HTMLInputElement).blur();
                   }}
-                  className="w-56"
+                  className="w-full sm:w-56"
                 />
               </SettingRow>
               {savingPassword && (
@@ -531,7 +531,7 @@ export function SettingsPanel({ settings, profile }: SettingsPanelProps) {
                   if (e.key === "Enter") (e.target as HTMLInputElement).blur();
                 }}
                 placeholder="smtp.gmail.com"
-                className="w-56"
+                className="w-full sm:w-56"
               />
             </SettingRow>
             <SettingRow title="Port">
@@ -585,7 +585,7 @@ export function SettingsPanel({ settings, profile }: SettingsPanelProps) {
                 onKeyDown={(e) => {
                   if (e.key === "Enter") (e.target as HTMLInputElement).blur();
                 }}
-                className="w-56"
+                className="w-full sm:w-56"
               />
             </SettingRow>
             <SettingRow
@@ -596,7 +596,7 @@ export function SettingsPanel({ settings, profile }: SettingsPanelProps) {
                   : "No password saved yet."
               }
             >
-              <div className="relative w-56">
+              <div className="relative w-full sm:w-56">
                 <Input
                   type={showSmtpPass ? "text" : "password"}
                   autoComplete="new-password"
@@ -633,7 +633,7 @@ export function SettingsPanel({ settings, profile }: SettingsPanelProps) {
                   if (e.key === "Enter") (e.target as HTMLInputElement).blur();
                 }}
                 placeholder="library@yourdomain.com"
-                className="w-56"
+                className="w-full sm:w-56"
               />
             </SettingRow>
           </SectionCard>
