@@ -18,6 +18,7 @@ export interface SettingsPatch {
   trendingEnabled?: boolean;
   booksPerPage?: number;
   searchResultLimit?: number;
+  uploadMaxSizeMb?: number;
   smtp?: Partial<SmtpSettings>;
 }
 

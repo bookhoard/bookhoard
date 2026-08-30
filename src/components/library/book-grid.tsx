@@ -22,6 +22,8 @@ interface BookGridProps {
   emptyMessage: string;
   /** Extra tile shown before the book cards, e.g. an upload drop placeholder. */
   leadingSlot?: React.ReactNode;
+  /** Extra controls shown next to the title, e.g. a sort menu. */
+  titleActions?: React.ReactNode;
 }
 
 export function BookGrid({
@@ -34,6 +36,7 @@ export function BookGrid({
   emptyTitle,
   emptyMessage,
   leadingSlot,
+  titleActions,
 }: BookGridProps) {
   const { settings } = useLibraryShell();
   const [page, setPage] = React.useState(1);
@@ -45,9 +48,12 @@ export function BookGrid({
 
   return (
     <section>
-      <h2 className="mb-4 font-heading text-lg font-bold tracking-tight">
-        {title}
-      </h2>
+      <div className="mb-4 flex items-center justify-between gap-3">
+        <h2 className="min-w-0 truncate font-heading text-lg font-bold tracking-tight">
+          {title}
+        </h2>
+        {titleActions}
+      </div>
       {books.length === 0 && !leadingSlot ? (
         <div className="flex flex-col items-center justify-center gap-3 rounded-xl border border-dashed border-border py-16 text-center">
           <div className="flex size-12 items-center justify-center rounded-full bg-muted">

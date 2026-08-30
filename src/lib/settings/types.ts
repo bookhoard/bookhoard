@@ -18,6 +18,8 @@ export interface AppSettings {
   booksPerPage: number;
   /** how many results the ⌘K search dialog shows before "keep typing to narrow it down" */
   searchResultLimit: number;
+  /** largest .epub file accepted by uploads, in MB */
+  uploadMaxSizeMb: number;
   smtp: SmtpSettings;
 }
 
@@ -26,6 +28,7 @@ export const DEFAULT_SETTINGS: AppSettings = {
   trendingEnabled: true,
   booksPerPage: 50,
   searchResultLimit: 10,
+  uploadMaxSizeMb: 25,
   smtp: {},
 };
 

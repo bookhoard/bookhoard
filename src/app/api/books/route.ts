@@ -2,6 +2,7 @@ import { createHash } from "node:crypto";
 import { NextResponse } from "next/server";
 import { getStorage } from "@/lib/storage";
 import { mutateJson, readJson } from "@/lib/store";
+import { getSettings } from "@/lib/settings/store";
 import { parseEpubMetadata } from "@/lib/epub/metadata";
 import { extractEpubCover } from "@/lib/epub/cover";
 import { extractAllEpubFiles } from "@/lib/epub/extract";
@@ -32,6 +33,17 @@ export async function POST(request: Request) {
   }
   if (!file.name.toLowerCase().endsWith(".epub")) {
     return NextResponse.json({ error: "Only .epub files are supported" }, { status: 400 });
+  }
+
+  const { uploadMaxSizeMb } = await getSettings();
+  const maxBytes = uploadMaxSizeMb * 1024 * 1024;
+  if (file.size > maxBytes) {
+    return NextResponse.json(
+      {
+        error: `File is larger than the ${uploadMaxSizeMb}MB upload limit (Settings → Library)`,
+      },
+      { status: 413 }
+    );
   }
 
   const buffer = Buffer.from(await file.arrayBuffer());
