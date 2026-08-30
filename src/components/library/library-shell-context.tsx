@@ -92,6 +92,14 @@ export function LibraryShellProvider({
       toast.add({ title: "Only .epub files are supported", type: "error" });
       return;
     }
+    if (file.size > settings.uploadMaxSizeMb * 1024 * 1024) {
+      toast.add({
+        title: "File too large",
+        description: `Larger than the ${settings.uploadMaxSizeMb}MB upload limit (Settings → Library)`,
+        type: "error",
+      });
+      return;
+    }
     setUploading(true);
     try {
       const formData = new FormData();
@@ -119,7 +127,7 @@ export function LibraryShellProvider({
     } finally {
       setUploading(false);
     }
-  }, []);
+  }, [settings.uploadMaxSizeMb]);
 
   // Merges the record onto the existing Book rather than replacing it: a
   // plain metadata refresh returns a bare BookRecord with no reading state,

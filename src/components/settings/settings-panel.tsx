@@ -142,6 +142,7 @@ export function SettingsPanel({ settings, profile }: SettingsPanelProps) {
   // library
   const [booksPerPage, setBooksPerPage] = React.useState(settings.booksPerPage);
   const [searchResultLimit, setSearchResultLimit] = React.useState(settings.searchResultLimit);
+  const [uploadMaxSizeMb, setUploadMaxSizeMb] = React.useState(settings.uploadMaxSizeMb);
 
   // metadata
   const [candidateLimit, setCandidateLimit] = React.useState(settings.metadataCandidateLimit);
@@ -262,6 +263,21 @@ export function SettingsPanel({ settings, profile }: SettingsPanelProps) {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ searchResultLimit: value ?? searchResultLimit }),
+      });
+      if (!res.ok) throw new Error();
+      notifySaved();
+      router.refresh();
+    } catch {
+      toast.add({ title: "Couldn't save settings", type: "error" });
+    }
+  };
+
+  const saveUploadMaxSizeMb = async (value?: number) => {
+    try {
+      const res = await fetch("/api/settings", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ uploadMaxSizeMb: value ?? uploadMaxSizeMb }),
       });
       if (!res.ok) throw new Error();
       notifySaved();
@@ -517,8 +533,30 @@ export function SettingsPanel({ settings, profile }: SettingsPanelProps) {
         {category === "library" && (
           <SectionCard
             title="Library"
-            description="Controls pagination in the Library and Reading Now grids."
+            description="Controls pagination and uploads in the Library and Reading Now grids."
           >
+            <SettingRow
+              title="Max upload size"
+              description="Largest .epub file accepted by uploads, in MB (1–500)."
+            >
+              <div className="flex items-center gap-1">
+                <Input
+                  type="number"
+                  min={1}
+                  max={500}
+                  value={uploadMaxSizeMb}
+                  onChange={(e) =>
+                    setUploadMaxSizeMb(Math.min(500, Math.max(1, Number(e.target.value) || 1)))
+                  }
+                  onBlur={() => saveUploadMaxSizeMb()}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") (e.target as HTMLInputElement).blur();
+                  }}
+                  className="w-20"
+                />
+                <span className="text-sm text-muted-foreground">MB</span>
+              </div>
+            </SettingRow>
             <SettingRow
               title="Books per page"
               description="How many books to show per page before Previous/Next appears (10–500)."

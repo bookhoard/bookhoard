@@ -60,6 +60,17 @@ export async function PATCH(request: Request) {
     patch.searchResultLimit = n;
   }
 
+  if (typeof body.uploadMaxSizeMb === "number") {
+    const n = Math.round(body.uploadMaxSizeMb);
+    if (n < 1 || n > 500) {
+      return NextResponse.json(
+        { error: "uploadMaxSizeMb must be between 1 and 500" },
+        { status: 400 }
+      );
+    }
+    patch.uploadMaxSizeMb = n;
+  }
+
   if (body.smtp) {
     const { clearPassword, pass, ...rest } = body.smtp;
     patch.smtp = { ...rest };
