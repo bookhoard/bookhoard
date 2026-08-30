@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.9.0](https://github.com/bookhoard/bookhoarder/compare/v0.8.0...v0.9.0) (2026-08-30)
+
+
+### Features
+
+* set a distinct SEO title on the homepage ([861a527](https://github.com/bookhoard/bookhoarder/commit/861a527e7d5585bd1480e39aa7159c6d89958b4c))
+
 ## [0.8.0](https://github.com/bookhoard/bookhoarder/compare/v0.7.0...v0.8.0) (2026-08-30)
 
 
