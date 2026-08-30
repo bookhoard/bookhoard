@@ -13,7 +13,7 @@
   <a href="https://github.com/bookhoard/bookhoarder/actions/workflows/ci.yml"><img src="https://github.com/bookhoard/bookhoarder/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
   <a href="https://github.com/bookhoard/bookhoarder/releases"><img src="https://img.shields.io/github/v/release/bookhoard/bookhoarder" alt="Latest release"></a>
   <a href="https://github.com/bookhoard/bookhoarder/pkgs/container/bookhoarder"><img src="https://img.shields.io/badge/ghcr.io-bookhoard%2Fbookhoarder-blue?logo=docker&logoColor=white" alt="Docker image"></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/license-Elastic--2.0-blue" alt="License"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-AGPL--3.0-blue" alt="License"></a>
   <a href="https://bookhoarder.dev"><img src="https://img.shields.io/badge/website-bookhoarder.dev-orange" alt="Website"></a>
   <a href="https://docs.bookhoarder.dev"><img src="https://img.shields.io/badge/docs-docs.bookhoarder.dev-blue" alt="Documentation"></a>
 </p>
@@ -71,7 +71,8 @@ Full docs are at [docs.bookhoarder.dev](https://docs.bookhoarder.dev) (source: [
 
 ## License
 
-Bookhoarder is licensed under the [Elastic License 2.0](LICENSE). You're free
-to self-host, modify, and use it — including internally at a company — but
-you may not offer it to third parties as a hosted or managed service.
+Bookhoarder is licensed under the [GNU Affero General Public License v3.0](LICENSE).
+You're free to self-host, modify, and use it — including internally at a
+company — but if you run a modified version as a network service, you must
+make your modified source available to its users.
 
