@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.8.0](https://github.com/bookhoard/bookhoarder/compare/v0.7.0...v0.8.0) (2026-08-30)
+
+
+### Features
+
+* add configurable upload size limit and library/reading-now sorting ([85607f7](https://github.com/bookhoard/bookhoarder/commit/85607f721533f1217c1f74f1efa75551b8b26182))
+
 ## [0.7.0](https://github.com/bookhoard/bookhoarder/compare/v0.6.0...v0.7.0) (2026-08-29)
 
 
