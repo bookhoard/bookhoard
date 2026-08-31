@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { cookies } from "next/headers";
 import { readJson } from "@/lib/store";
 import type { BookRecord } from "@/lib/books/types";
@@ -30,14 +31,16 @@ export default async function AppGroupLayout({
   const sidebarOpen = sidebarCookie === undefined ? true : sidebarCookie === "true";
 
   return (
-    <LibraryShellProvider
-      key={activeProfile.id}
-      initialBooks={books}
-      profiles={profiles.map(toPublicProfile)}
-      activeProfileId={activeProfile.id}
-      settings={toPublicSettings(settings)}
-    >
-      <AppShell defaultSidebarOpen={sidebarOpen}>{children}</AppShell>
-    </LibraryShellProvider>
+    <Suspense>
+      <LibraryShellProvider
+        key={activeProfile.id}
+        initialBooks={books}
+        profiles={profiles.map(toPublicProfile)}
+        activeProfileId={activeProfile.id}
+        settings={toPublicSettings(settings)}
+      >
+        <AppShell defaultSidebarOpen={sidebarOpen}>{children}</AppShell>
+      </LibraryShellProvider>
+    </Suspense>
   );
 }

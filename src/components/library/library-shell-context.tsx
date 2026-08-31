@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { toast } from "@/components/ui/toast";
 import { useShelves } from "@/hooks/use-shelves";
 import { bookCoverUrl, toLibraryBook, type Book, type BookRecord } from "@/lib/books/types";
@@ -52,8 +53,17 @@ export function LibraryShellProvider({
   settings,
   children,
 }: LibraryShellProviderProps) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const [books, setBooks] = React.useState<Book[]>(initialBooks);
-  const [selected, setSelected] = React.useState<Book | null>(null);
+
+  // The drawer's open/closed state (and which book it shows) lives on the
+  // URL — ?book=<id> — rather than in local state, so it's shareable,
+  // survives a refresh, and the browser back button closes it.
+  const selectedId = searchParams.get("book");
+  const selected = books.find((b) => b.id === selectedId) ?? null;
+
   // kept around during the close transition so the panel doesn't blank out
   // while it's sliding off-screen
   const [displayedBook, setDisplayedBook] = React.useState<Book | null>(null);
@@ -71,6 +81,26 @@ export function LibraryShellProvider({
     if (selected) setDisplayedBook(selected);
   }, [selected]);
 
+  const setBookParam = React.useCallback(
+    (id: string | null, opts?: { replace?: boolean }) => {
+      const params = new URLSearchParams(searchParams.toString());
+      if (id) params.set("book", id);
+      else params.delete("book");
+      const query = params.toString();
+      const url = query ? `${pathname}?${query}` : pathname;
+      if (opts?.replace) router.replace(url, { scroll: false });
+      else router.push(url, { scroll: false });
+    },
+    [pathname, router, searchParams]
+  );
+
+  // Opening pushes a new history entry (so the back button closes the
+  // drawer); closing replaces instead of stacking a redundant "closed" entry.
+  const setSelected = React.useCallback(
+    (book: Book | null) => setBookParam(book?.id ?? null, { replace: book === null }),
+    [setBookParam]
+  );
+
   React.useEffect(() => {
     if (!selected) return;
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -78,7 +108,7 @@ export function LibraryShellProvider({
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [selected]);
+  }, [selected, setSelected]);
 
   const [uploading, setUploading] = React.useState(false);
 
@@ -134,11 +164,11 @@ export function LibraryShellProvider({
   // and blindly swapping the book would wipe its rating/progress/read flag
   // out of local state until the next full page load. A PATCH response
   // (rating/read/progress) already carries the fresh values and simply
-  // overwrites them here as intended.
+  // overwrites them here as intended. `selected` re-derives from `books`
+  // automatically, so only `displayedBook` needs an explicit nudge.
   const handleMetadataApplied = (record: BookRecord) => {
     const merge = (prev: Book): Book => ({ ...prev, ...record, coverUrl: bookCoverUrl(record) });
     setBooks((prev) => prev.map((b) => (b.id === record.id ? merge(b) : b)));
-    setSelected((prev) => (prev && prev.id === record.id ? merge(prev) : prev));
     setDisplayedBook((prev) => (prev && prev.id === record.id ? merge(prev) : prev));
   };
 
@@ -164,7 +194,7 @@ export function LibraryShellProvider({
       return;
     }
     setBooks((prev) => prev.filter((b) => b.id !== bookId));
-    setSelected((prev) => (prev && prev.id === bookId ? null : prev));
+    if (selectedId === bookId) setBookParam(null, { replace: true });
     toast.add({
       title: "Book deleted",
       description: title ? `"${title}" was removed from your library` : undefined,
