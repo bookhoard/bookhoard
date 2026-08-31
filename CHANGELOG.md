@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.15.0](https://github.com/bookhoard/bookhoarder/compare/v0.14.0...v0.15.0) (2026-08-31)
+
+
+### Features
+
+* update dialog components to ensure proper truncation and minimum width ([cfe003a](https://github.com/bookhoard/bookhoarder/commit/cfe003aa1a29ac8fb411a6f7b9aa55e54372ebf5))
+
 ## [0.14.0](https://github.com/bookhoard/bookhoarder/compare/v0.13.0...v0.14.0) (2026-08-31)
 
 
