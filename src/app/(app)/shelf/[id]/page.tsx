@@ -10,7 +10,8 @@ import { useDocumentTitle } from "@/hooks/use-document-title";
 export default function ShelfPage() {
   const params = useParams<{ id: string }>();
   const { books, shelves, smartShelves, selected, setSelected, bookCardActions } = useLibraryShell();
-  const shelf = shelves.find((s) => s.id === params.id) ?? smartShelves.find((s) => s.id === params.id);
+  const smartShelf = smartShelves.find((s) => s.id === params.id);
+  const shelf = shelves.find((s) => s.id === params.id) ?? smartShelf;
   const shelfBooks = shelf ? books.filter((book) => shelf.bookIds.includes(book.id)) : [];
   useDocumentTitle(shelf?.name ?? "Shelf");
 
@@ -32,7 +33,11 @@ export default function ShelfPage() {
       actions={bookCardActions}
       emptyIcon={FolderOpen}
       emptyTitle="This shelf is empty"
-      emptyMessage="Select a book and use “Add to shelf” to add it here."
+      emptyMessage={
+        smartShelf
+          ? "Books appear here automatically based on their reading status or rating."
+          : "Select a book and use “Add to shelf” to add it here."
+      }
     />
   );
 }
