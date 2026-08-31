@@ -106,7 +106,7 @@ export function EditBookDrawer({ book, open, onOpenChange, onApplied }: EditBook
           <DrawerDescription>Update this book&rsquo;s cover, title, author, and description.</DrawerDescription>
         </DrawerHeader>
 
-        <div className="flex flex-col gap-5 px-4 pt-6">
+        <div className="flex flex-1 flex-col gap-5 overflow-y-auto px-4 pt-6">
           <div className="flex flex-col items-center gap-2">
             <input
               ref={coverInputRef}

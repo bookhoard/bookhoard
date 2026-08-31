@@ -71,7 +71,7 @@ export function ShelfFormDrawer({
           <DrawerDescription>Give it a name and a color to spot it by.</DrawerDescription>
         </DrawerHeader>
 
-        <div className="flex flex-col gap-5 px-4">
+        <div className="flex flex-1 flex-col gap-5 overflow-y-auto px-4">
           <div className="flex flex-col gap-2">
             <label htmlFor="shelf-name" className="text-sm font-medium">
               Name
