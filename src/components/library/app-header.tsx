@@ -1,19 +1,20 @@
 "use client";
 
 import * as React from "react";
-import { Search, Plus, Loader2, Menu } from "lucide-react";
+import { Search, Plus, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { SidebarTrigger } from "@/components/ui/sidebar";
 import { SearchDialog } from "./search-dialog";
 import { cn } from "@/lib/utils";
 import { useLibraryShell } from "./library-shell-context";
 import { DEMO_MODE } from "@/lib/demo-mode";
 
-export function AppHeader({ onOpenMobileMenu }: { onOpenMobileMenu: () => void }) {
+export function AppHeader() {
   const { uploading, uploadFile } = useLibraryShell();
   const fileInputRef = React.useRef<HTMLInputElement>(null);
   const [searchOpen, setSearchOpen] = React.useState(false);
@@ -38,14 +39,7 @@ export function AppHeader({ onOpenMobileMenu }: { onOpenMobileMenu: () => void }
 
   return (
     <header className="flex h-20 shrink-0 items-center gap-2 px-4 md:gap-4 md:px-8">
-      <button
-        type="button"
-        onClick={onOpenMobileMenu}
-        aria-label="Open menu"
-        className="flex size-9 shrink-0 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-accent/60 hover:text-foreground md:hidden"
-      >
-        <Menu className="size-5" />
-      </button>
+      <SidebarTrigger className="shrink-0 rounded-full md:hidden" />
 
       <button
         type="button"

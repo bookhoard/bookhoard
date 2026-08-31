@@ -26,7 +26,8 @@ export default async function AppGroupLayout({
 
   const state = await getProfileState(activeProfile.id);
   const books = records.map((record) => applyProfileState(record, state[record.id]));
-  const sidebarCollapsed = cookieStore.get("sidebar-collapsed")?.value === "true";
+  const sidebarCookie = cookieStore.get("sidebar_state")?.value;
+  const sidebarOpen = sidebarCookie === undefined ? true : sidebarCookie === "true";
 
   return (
     <LibraryShellProvider
@@ -36,7 +37,7 @@ export default async function AppGroupLayout({
       activeProfileId={activeProfile.id}
       settings={toPublicSettings(settings)}
     >
-      <AppShell initialSidebarCollapsed={sidebarCollapsed}>{children}</AppShell>
+      <AppShell defaultSidebarOpen={sidebarOpen}>{children}</AppShell>
     </LibraryShellProvider>
   );
 }

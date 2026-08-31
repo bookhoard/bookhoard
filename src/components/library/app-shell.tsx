@@ -4,38 +4,30 @@ import * as React from "react";
 import { AppSidebar } from "./app-sidebar";
 import { AppHeader } from "./app-header";
 import { BookDetailDrawer } from "./book-detail-drawer";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 
 export function AppShell({
   children,
-  initialSidebarCollapsed,
+  defaultSidebarOpen,
 }: {
   children: React.ReactNode;
-  initialSidebarCollapsed: boolean;
+  defaultSidebarOpen: boolean;
 }) {
-  // Sidebar collapse (desktop, persisted) and mobile open/closed (session-only,
-  // always starts closed) are separate concerns — a phone shouldn't remember
-  // "open" across visits the way a desktop remembers "collapsed".
-  const [mobileSidebarOpen, setMobileSidebarOpen] = React.useState(false);
-
   return (
-    <div className="relative flex h-dvh overflow-hidden bg-background">
-      <AppSidebar
-        initialCollapsed={initialSidebarCollapsed}
-        mobileOpen={mobileSidebarOpen}
-        onCloseMobile={() => setMobileSidebarOpen(false)}
-      />
+    <SidebarProvider defaultOpen={defaultSidebarOpen}>
+      <AppSidebar />
 
-      <div className="flex flex-1 flex-col overflow-hidden">
-        <AppHeader onOpenMobileMenu={() => setMobileSidebarOpen(true)} />
+      <SidebarInset className="h-dvh overflow-hidden">
+        <AppHeader />
 
         <div className="flex flex-1 overflow-hidden md:pb-8 md:pl-8">
           <div className="flex-1 overflow-y-auto px-4 pt-10 md:px-0">
             <div className="flex flex-col gap-8 md:pr-8">{children}</div>
           </div>
         </div>
-      </div>
+      </SidebarInset>
 
       <BookDetailDrawer />
-    </div>
+    </SidebarProvider>
   );
 }
