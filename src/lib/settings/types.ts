@@ -14,7 +14,7 @@ export interface AppSettings {
   /** how many candidates the Fetch Metadata drawer requests from Open Library */
   metadataCandidateLimit: number;
   trendingEnabled: boolean;
-  /** how many books the Library/Reading Now grids show per page */
+  /** how many books each BookGrid (Library, Trending, shelves) shows per page */
   booksPerPage: number;
   /** how many results the ⌘K search dialog shows before "keep typing to narrow it down" */
   searchResultLimit: number;

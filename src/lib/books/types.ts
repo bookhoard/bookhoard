@@ -21,6 +21,9 @@ export interface BookRecord {
    * Unset on books uploaded before extraction was added; re-upload to fix.
    */
   opfPath?: string;
+  /** Unset on books added before tagging existed — treat as []. */
+  tags?: string[];
+  series?: { name: string; position: number };
 }
 
 /**

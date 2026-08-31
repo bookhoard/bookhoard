@@ -11,7 +11,7 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://bookhoarder.dev";
 export default function sitemap(): MetadataRoute.Sitemap {
   if (!DEMO_MODE) return [];
 
-  const routes = ["/", "/trending", "/reading-now"];
+  const routes = ["/", "/trending"];
   const lastModified = new Date();
 
   return routes.map((route) => ({

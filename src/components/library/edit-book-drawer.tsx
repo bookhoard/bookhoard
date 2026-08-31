@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { BookCover } from "./book-cover";
+import { TagInput } from "./tag-input";
 import { ImageUp, Loader2 } from "lucide-react";
 import { toast } from "@/components/ui/toast";
 import type { Book, BookRecord } from "@/lib/books/types";
@@ -29,6 +30,11 @@ export function EditBookDrawer({ book, open, onOpenChange, onApplied }: EditBook
   const [title, setTitle] = React.useState(book.title);
   const [author, setAuthor] = React.useState(book.author);
   const [description, setDescription] = React.useState(book.description ?? "");
+  const [tags, setTags] = React.useState<string[]>(book.tags ?? []);
+  const [seriesName, setSeriesName] = React.useState(book.series?.name ?? "");
+  const [seriesPosition, setSeriesPosition] = React.useState(
+    book.series ? String(book.series.position) : ""
+  );
   const [coverFile, setCoverFile] = React.useState<File | null>(null);
   const [coverPreviewUrl, setCoverPreviewUrl] = React.useState<string | null>(null);
   const [saving, setSaving] = React.useState(false);
@@ -40,6 +46,9 @@ export function EditBookDrawer({ book, open, onOpenChange, onApplied }: EditBook
     setTitle(book.title);
     setAuthor(book.author);
     setDescription(book.description ?? "");
+    setTags(book.tags ?? []);
+    setSeriesName(book.series?.name ?? "");
+    setSeriesPosition(book.series ? String(book.series.position) : "");
     setCoverFile(null);
     requestAnimationFrame(() => inputRef.current?.focus());
   }, [open, book]);
@@ -75,6 +84,9 @@ export function EditBookDrawer({ book, open, onOpenChange, onApplied }: EditBook
       form.set("title", trimmedTitle);
       form.set("author", trimmedAuthor);
       form.set("description", description.trim());
+      form.set("tags", JSON.stringify(tags));
+      form.set("seriesName", seriesName.trim());
+      form.set("seriesPosition", seriesPosition);
       if (coverFile) form.set("cover", coverFile);
 
       const res = await fetch(`/api/books/${book.id}/metadata`, {
@@ -103,7 +115,9 @@ export function EditBookDrawer({ book, open, onOpenChange, onApplied }: EditBook
       <DrawerContent className="my-3 border-t border-b">
         <DrawerHeader>
           <DrawerTitle>Edit Book</DrawerTitle>
-          <DrawerDescription>Update this book&rsquo;s cover, title, author, and description.</DrawerDescription>
+          <DrawerDescription>
+            Update this book&rsquo;s cover, title, author, description, tags, and series.
+          </DrawerDescription>
         </DrawerHeader>
 
         <div className="flex flex-1 flex-col gap-5 overflow-y-auto px-4 pt-6">
@@ -182,6 +196,35 @@ export function EditBookDrawer({ book, open, onOpenChange, onApplied }: EditBook
               placeholder="What's this book about?"
               rows={6}
             />
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <label className="text-sm font-medium">Tags</label>
+            <TagInput value={tags} onChange={setTags} />
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <label htmlFor="book-series" className="text-sm font-medium">
+              Series
+            </label>
+            <div className="flex gap-2">
+              <Input
+                id="book-series"
+                value={seriesName}
+                onChange={(e) => setSeriesName(e.target.value)}
+                placeholder="e.g. The Dracula Chronicles"
+                className="flex-1"
+              />
+              <Input
+                type="number"
+                min={0}
+                value={seriesPosition}
+                onChange={(e) => setSeriesPosition(e.target.value)}
+                placeholder="#"
+                className="w-16"
+                aria-label="Position in series"
+              />
+            </div>
           </div>
         </div>
 

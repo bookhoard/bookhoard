@@ -18,6 +18,7 @@ import {
   X,
 } from "lucide-react";
 import { BookCover } from "./book-cover";
+import { Badge } from "@/components/ui/badge";
 import { EditBookDrawer } from "./edit-book-drawer";
 import { FetchMetadataDialog } from "./fetch-metadata-dialog";
 import { RateDialog } from "./rate-dialog";
@@ -113,6 +114,11 @@ export function DetailPanel({
             {book.title}
           </h2>
           <p className="text-sm text-muted-foreground">{book.author}</p>
+          {book.series && (
+            <p className="text-xs text-muted-foreground">
+              {book.series.name} · #{book.series.position}
+            </p>
+          )}
           <div className="mt-1 flex flex-col gap-1 text-xs text-muted-foreground">
             <span className="flex items-center gap-1.5">
               <CalendarDays className="size-3.5" />
@@ -125,6 +131,16 @@ export function DetailPanel({
           </div>
         </div>
       </div>
+
+      {!!book.tags?.length && (
+        <div className="mt-3 flex flex-wrap gap-1.5">
+          {book.tags.map((tag) => (
+            <Badge key={tag} variant="secondary">
+              {tag}
+            </Badge>
+          ))}
+        </div>
+      )}
 
       <div className="mt-5 flex gap-2">
         <Button

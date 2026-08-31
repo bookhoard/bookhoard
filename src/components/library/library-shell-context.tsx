@@ -6,6 +6,7 @@ import { toast } from "@/components/ui/toast";
 import { useShelves } from "@/hooks/use-shelves";
 import { bookCoverUrl, toLibraryBook, type Book, type BookRecord } from "@/lib/books/types";
 import type { Shelf } from "@/lib/shelves";
+import { computeSmartShelves, type SmartShelf } from "@/lib/shelves/smart";
 import type { PublicProfile } from "@/lib/profiles/types";
 import type { PublicAppSettings } from "@/lib/settings/types";
 import type { BookCardActions } from "./book-card";
@@ -16,6 +17,7 @@ interface LibraryShellContextValue {
   setSelected: (book: Book | null) => void;
   displayedBook: Book | null;
   shelves: Shelf[];
+  smartShelves: SmartShelf[];
   createShelf: (name: string, color: string) => void;
   renameShelf: (id: string, name: string) => void;
   recolorShelf: (id: string, color: string) => void;
@@ -76,6 +78,11 @@ export function LibraryShellProvider({
     toggleBookInShelf,
     addBookToShelf,
   } = useShelves(activeProfileId);
+
+  // Computed, non-persisted views (Unread/Currently Reading/Finished/5-Star)
+  // — kept separate from `shelves` since they're not CRUD-able or a valid
+  // drag-and-drop target for "add to shelf".
+  const smartShelves = React.useMemo(() => computeSmartShelves(books), [books]);
 
   React.useEffect(() => {
     if (selected) setDisplayedBook(selected);
@@ -238,6 +245,7 @@ export function LibraryShellProvider({
     setSelected,
     displayedBook,
     shelves,
+    smartShelves,
     createShelf,
     renameShelf,
     recolorShelf,

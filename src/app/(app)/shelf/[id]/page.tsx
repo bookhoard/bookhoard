@@ -9,8 +9,8 @@ import { useDocumentTitle } from "@/hooks/use-document-title";
 
 export default function ShelfPage() {
   const params = useParams<{ id: string }>();
-  const { books, shelves, selected, setSelected, bookCardActions } = useLibraryShell();
-  const shelf = shelves.find((s) => s.id === params.id);
+  const { books, shelves, smartShelves, selected, setSelected, bookCardActions } = useLibraryShell();
+  const shelf = shelves.find((s) => s.id === params.id) ?? smartShelves.find((s) => s.id === params.id);
   const shelfBooks = shelf ? books.filter((book) => shelf.bookIds.includes(book.id)) : [];
   useDocumentTitle(shelf?.name ?? "Shelf");
 

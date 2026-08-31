@@ -3,13 +3,15 @@
 import * as React from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useTheme } from "next-themes";
-import { User, Moon, Sparkles, TrendingUp, Mail, Loader2, Users, Eye, EyeOff, Copy, LayoutGrid } from "lucide-react";
+import { User, Moon, Sparkles, TrendingUp, Mail, Loader2, Users, Eye, EyeOff, Copy, LayoutGrid, Archive } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { toast } from "@/components/ui/toast";
 import { cn } from "@/lib/utils";
+import { formatBytes } from "@/lib/format";
+import { DEMO_MODE } from "@/lib/demo-mode";
 import { useLibraryShell } from "@/components/library/library-shell-context";
 import { ManageProfilesPanel } from "./manage-profiles-panel";
 import { PROFILE_COLORS, type PublicProfile } from "@/lib/profiles/types";
@@ -20,7 +22,7 @@ interface SettingsPanelProps {
   profile: PublicProfile;
 }
 
-type Category = "profile" | "theme" | "profiles" | "library" | "metadata" | "trending" | "email";
+type Category = "profile" | "theme" | "profiles" | "library" | "metadata" | "trending" | "email" | "backup";
 
 const CATEGORIES: {
   id: Category;
@@ -35,6 +37,7 @@ const CATEGORIES: {
   { id: "metadata", label: "Metadata", icon: Sparkles, adminOnly: true },
   { id: "trending", label: "Trending", icon: TrendingUp, adminOnly: true },
   { id: "email", label: "E-Reader Email", icon: Mail, adminOnly: true },
+  { id: "backup", label: "Backup", icon: Archive, adminOnly: true },
 ];
 
 function SettingRow({
@@ -86,7 +89,7 @@ export function SettingsPanel({ settings, profile }: SettingsPanelProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { theme, setTheme } = useTheme();
-  const { profiles, activeProfileId } = useLibraryShell();
+  const { profiles, activeProfileId, books } = useLibraryShell();
   const [mounted, setMounted] = React.useState(false);
   React.useEffect(() => setMounted(true), []);
   // Needs an absolute URL since it's copied into an app on a different
@@ -160,6 +163,10 @@ export function SettingsPanel({ settings, profile }: SettingsPanelProps) {
   const [smtpPass, setSmtpPass] = React.useState("");
   const [showSmtpPass, setShowSmtpPass] = React.useState(false);
   const [smtpFrom, setSmtpFrom] = React.useState(settings.smtp.fromAddress ?? "");
+
+  // backup
+  const [includeFiles, setIncludeFiles] = React.useState(false);
+  const totalBookBytes = books.reduce((sum, b) => sum + b.size, 0);
 
   React.useEffect(() => {
     setName(profile.name);
@@ -533,7 +540,7 @@ export function SettingsPanel({ settings, profile }: SettingsPanelProps) {
         {category === "library" && (
           <SectionCard
             title="Library"
-            description="Controls pagination and uploads in the Library and Reading Now grids."
+            description="Controls pagination and uploads across your book grids."
           >
             <SettingRow
               title="Max upload size"
@@ -782,6 +789,55 @@ export function SettingsPanel({ settings, profile }: SettingsPanelProps) {
               />
             </SettingRow>
           </SectionCard>
+          </div>
+        )}
+
+        {category === "backup" && (
+          <div className="flex flex-col gap-3">
+            <SectionCard
+              title="Backup"
+              description="Download a copy of your library so it lives somewhere other than this one bucket."
+            >
+              {DEMO_MODE ? (
+                <p className="py-4 text-sm text-muted-foreground">
+                  Backups are disabled on this read-only demo.
+                </p>
+              ) : (
+                <>
+                  <SettingRow
+                    title="Include EPUB and cover files"
+                    description={
+                      includeFiles
+                        ? `Adds every book's file — roughly ${formatBytes(totalBookBytes)} on top of metadata.`
+                        : "Off downloads just metadata (ratings, shelves, tags, settings) — small and fast."
+                    }
+                  >
+                    <Switch checked={includeFiles} onCheckedChange={setIncludeFiles} />
+                  </SettingRow>
+                  <div className="flex justify-end py-4">
+                    <Button
+                      variant="outline"
+                      render={
+                        <a
+                          href={`/api/backup${includeFiles ? "?files=1" : ""}`}
+                          download
+                        />
+                      }
+                      className="gap-2"
+                    >
+                      <Archive className="size-4" />
+                      Download backup
+                    </Button>
+                  </div>
+                </>
+              )}
+            </SectionCard>
+            {!DEMO_MODE && (
+              <p className="px-1 text-xs text-muted-foreground">
+                This is a one-way export — to restore, unzip it back into your storage bucket
+                (preserving the folder structure) and restart the app.
+              </p>
+            )}
           </div>
         )}
       </div>

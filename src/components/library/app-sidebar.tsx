@@ -4,7 +4,6 @@ import * as React from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
-  BookOpenText,
   LibraryBig,
   Plus,
   MoreVertical,
@@ -72,6 +71,7 @@ export function AppSidebar() {
   const {
     books,
     shelves,
+    smartShelves,
     createShelf,
     renameShelf,
     recolorShelf,
@@ -82,7 +82,6 @@ export function AppSidebar() {
 
   const navItems: NavItem[] = [
     { href: "/", label: "Library", icon: LibraryBig },
-    { href: "/reading-now", label: "Reading Now", icon: BookOpenText },
     ...(settings.trendingEnabled
       ? [{ href: "/trending", label: "Trending", icon: TrendingUp }]
       : []),
@@ -168,6 +167,24 @@ export function AppSidebar() {
                 >
                   <item.icon />
                   <span>{item.label}</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            ))}
+          </SidebarMenu>
+        </SidebarGroup>
+
+        <SidebarGroup>
+          <SidebarGroupLabel className="uppercase tracking-wider">Smart Shelves</SidebarGroupLabel>
+          <SidebarMenu className="gap-1">
+            {smartShelves.map((shelf) => (
+              <SidebarMenuItem key={shelf.id}>
+                <SidebarMenuButton
+                  isActive={pathname === `/shelf/${shelf.id}`}
+                  tooltip={shelf.name}
+                  render={<Link href={`/shelf/${shelf.id}`} />}
+                >
+                  <shelf.icon />
+                  <span>{shelf.name}</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             ))}

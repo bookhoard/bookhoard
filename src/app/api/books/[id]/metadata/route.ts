@@ -11,6 +11,50 @@ interface ApplyMetadataBody {
   coverUrl?: string;
 }
 
+const MAX_TAGS = 30;
+const MAX_TAG_LENGTH = 40;
+
+/** Trims, drops blanks, dedupes case-insensitively (keeping first-seen casing), and caps count/length. */
+function normalizeTags(raw: unknown): string[] | undefined {
+  if (!Array.isArray(raw)) return undefined;
+  const seen = new Set<string>();
+  const tags: string[] = [];
+  for (const entry of raw) {
+    if (typeof entry !== "string") continue;
+    const trimmed = entry.trim().slice(0, MAX_TAG_LENGTH);
+    if (!trimmed) continue;
+    const key = trimmed.toLowerCase();
+    if (seen.has(key)) continue;
+    seen.add(key);
+    tags.push(trimmed);
+    if (tags.length >= MAX_TAGS) break;
+  }
+  return tags;
+}
+
+function parseTagsField(value: FormDataEntryValue | null): string[] | undefined {
+  if (typeof value !== "string") return undefined;
+  try {
+    return normalizeTags(JSON.parse(value));
+  } catch {
+    return undefined;
+  }
+}
+
+function parseSeries(
+  name: FormDataEntryValue | null,
+  position: FormDataEntryValue | null
+): BookRecord["series"] | null | undefined {
+  if (typeof name !== "string") return undefined;
+  const trimmedName = name.trim();
+  if (!trimmedName) return null;
+  const parsedPosition = typeof position === "string" ? Number(position) : NaN;
+  return {
+    name: trimmedName,
+    position: Number.isFinite(parsedPosition) && parsedPosition >= 0 ? parsedPosition : 0,
+  };
+}
+
 export async function POST(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
@@ -29,6 +73,8 @@ export async function POST(
   let description: string | undefined;
   let coverBuffer: Buffer | undefined;
   let coverContentType: string | undefined;
+  let tags: string[] | undefined;
+  let series: BookRecord["series"] | null | undefined;
 
   if (contentType.includes("multipart/form-data")) {
     const form = await request.formData();
@@ -36,6 +82,8 @@ export async function POST(
     author = typeof form.get("author") === "string" ? (form.get("author") as string) : undefined;
     description =
       typeof form.get("description") === "string" ? (form.get("description") as string) : undefined;
+    tags = parseTagsField(form.get("tags"));
+    series = parseSeries(form.get("seriesName"), form.get("seriesPosition"));
 
     const cover = form.get("cover");
     if (cover instanceof File) {
@@ -83,6 +131,8 @@ export async function POST(
     hasCover,
     coverExt,
     coverUpdatedAt,
+    tags: tags ?? book.tags,
+    series: series === null ? undefined : (series ?? book.series),
   };
 
   await storage.put(

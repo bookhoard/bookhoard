@@ -4,6 +4,7 @@ import { Inter, Plus_Jakarta_Sans } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "@/components/ui/toast";
+import { ServiceWorkerRegister } from "@/components/pwa/sw-register";
 import "./globals.css";
 
 const inter = Inter({
@@ -43,6 +44,11 @@ export const metadata: Metadata = {
     description,
     images: ["/og-image.jpg"],
   },
+  appleWebApp: {
+    capable: true,
+    title,
+    statusBarStyle: "default",
+  },
 };
 
 export default async function RootLayout({
@@ -74,6 +80,7 @@ export default async function RootLayout({
           <TooltipProvider delay={200}>
             <Toaster>{children}</Toaster>
           </TooltipProvider>
+          <ServiceWorkerRegister />
         </ThemeProvider>
       </body>
     </html>
