@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.12.0](https://github.com/bookhoard/bookhoarder/compare/v0.11.0...v0.12.0) (2026-08-31)
+
+
+### Features
+
+* add book tags/series, smart shelves, library backup, and PWA shell ([ef20720](https://github.com/bookhoard/bookhoarder/commit/ef20720e1e8425074704b36dbb4f0257a82213a0))
+
 ## [0.11.0](https://github.com/bookhoard/bookhoarder/compare/v0.10.0...v0.11.0) (2026-08-31)
 
 
