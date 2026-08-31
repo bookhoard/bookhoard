@@ -1,12 +1,13 @@
 "use client";
 
 import * as React from "react";
-import { Loader2 } from "lucide-react";
+import { Loader2, TrendingDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { TRENDING_PERIODS, type TrendingBook, type TrendingPeriod } from "@/lib/trending";
 import { useDocumentTitle } from "@/hooks/use-document-title";
 import { BookGridLayout } from "./book-grid";
 import { BookTile, bookTileClassName } from "./book-tile";
+import { Empty, EmptyHeader, EmptyMedia, EmptyTitle } from "@/components/ui/empty";
 
 export function TrendingPage() {
   useDocumentTitle("Trending");
@@ -59,11 +60,14 @@ export function TrendingPage() {
           Loading trending books…
         </div>
       ) : books.length === 0 ? (
-        <div className="flex flex-col items-center justify-center gap-3 rounded-xl border border-dashed border-border py-24 text-center">
-          <p className="text-sm text-muted-foreground">
-            Couldn&rsquo;t load trending books right now.
-          </p>
-        </div>
+        <Empty className="border py-24">
+          <EmptyHeader>
+            <EmptyMedia variant="icon">
+              <TrendingDown />
+            </EmptyMedia>
+            <EmptyTitle>Couldn&rsquo;t load trending books right now.</EmptyTitle>
+          </EmptyHeader>
+        </Empty>
       ) : (
         <BookGridLayout>
           {books.map((book) => (

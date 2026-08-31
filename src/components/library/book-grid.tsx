@@ -4,6 +4,7 @@ import * as React from "react";
 import { ArrowLeft, ArrowRight, LibraryBig } from "lucide-react";
 import { BookCard, type BookCardActions } from "./book-card";
 import { useLibraryShell } from "./library-shell-context";
+import { Empty, EmptyHeader, EmptyMedia, EmptyTitle, EmptyDescription } from "@/components/ui/empty";
 import type { Book } from "@/lib/books/types";
 
 /** Grid wrapper shared by every view that lays out book tiles (library, reading now, trending). */
@@ -55,17 +56,15 @@ export function BookGrid({
         {titleActions}
       </div>
       {books.length === 0 && !leadingSlot ? (
-        <div className="flex flex-col items-center justify-center gap-3 rounded-xl border border-dashed border-border py-16 text-center">
-          <div className="flex size-12 items-center justify-center rounded-full bg-muted">
-            <EmptyIcon className="size-5 text-muted-foreground" strokeWidth={1.75} />
-          </div>
-          <div className="space-y-1 px-6">
-            <p className="text-sm font-semibold">{emptyTitle}</p>
-            <p className="mx-auto max-w-xs text-sm text-muted-foreground">
-              {emptyMessage}
-            </p>
-          </div>
-        </div>
+        <Empty className="border py-16">
+          <EmptyHeader>
+            <EmptyMedia variant="icon" className="size-12 rounded-full">
+              <EmptyIcon />
+            </EmptyMedia>
+            <EmptyTitle>{emptyTitle}</EmptyTitle>
+            <EmptyDescription>{emptyMessage}</EmptyDescription>
+          </EmptyHeader>
+        </Empty>
       ) : (
         <>
           <BookGridLayout>
