@@ -25,7 +25,7 @@ export function RateDialog({ book, open, onOpenChange, onRate }: RateDialogProps
       <DialogContent className="sm:max-w-xs">
         <DialogHeader>
           <DialogTitle>Rate this book</DialogTitle>
-          <DialogDescription className="truncate">{book.title}</DialogDescription>
+          <DialogDescription className="min-w-0 truncate">{book.title}</DialogDescription>
         </DialogHeader>
 
         <div className="flex items-center justify-center py-4">
