@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.14.0](https://github.com/bookhoard/bookhoarder/compare/v0.13.0...v0.14.0) (2026-08-31)
+
+
+### Features
+
+* enhance shelf page to differentiate between smart shelves and regular shelves in empty state message ([ee9ca95](https://github.com/bookhoard/bookhoarder/commit/ee9ca9536a01c5cfe7ecf2b5cbabf53d3469807d))
+
 ## [0.13.0](https://github.com/bookhoard/bookhoarder/compare/v0.12.0...v0.13.0) (2026-08-31)
 
 
