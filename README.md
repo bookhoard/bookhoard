@@ -59,10 +59,15 @@ Full docs are at [docs.bookhoarder.dev](https://docs.bookhoarder.dev) (source: [
 
 - EPUB upload, ingest, and an in-browser reader (epub.js) with per-profile
   reading progress, ratings, and shelves
+- Tags and series metadata per book, a tag filter on the library grid, and
+  computed Smart Shelves (Unread, Currently Reading, Finished, 5-Star)
 - Multi-profile support (admin/reader roles) with optional per-profile
   passwords
 - Metadata lookup and cover fetching via Open Library, with manual editing
 - Trending books, library search by title/author, and send-to-e-reader over SMTP
+- One-click library backup from Settings (admin-only) — metadata-only by
+  default, or a full export including every EPUB and cover
+- Installable as a PWA for quick access from your phone or desktop home screen
 - OPDS catalog feed (`/opds`) for browsing and downloading straight from any
   OPDS-compatible e-reader app — the URL is in Settings → E-Reader Email
 - Pluggable storage driver: local filesystem or S3-compatible object storage,
