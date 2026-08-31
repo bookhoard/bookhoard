@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.10.0](https://github.com/bookhoard/bookhoarder/compare/v0.9.0...v0.10.0) (2026-08-31)
+
+
+### Features
+
+* redesign sidebar to match recipery's collapsible/mobile pattern ([a35e67a](https://github.com/bookhoard/bookhoarder/commit/a35e67a3443937b40d63f1a29a8f03592986a41c))
+
+
+### Bug Fixes
+
+* keep toasts above drawers in the stacking order ([dace390](https://github.com/bookhoard/bookhoarder/commit/dace39017b7e6c2568bd6aa0cf27a7874c3a147d))
+
 ## [0.9.0](https://github.com/bookhoard/bookhoarder/compare/v0.8.0...v0.9.0) (2026-08-30)
 
 
