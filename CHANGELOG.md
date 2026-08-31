@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.13.0](https://github.com/bookhoard/bookhoarder/compare/v0.12.0...v0.13.0) (2026-08-31)
+
+
+### Features
+
+* implement reusable empty state components for book grid and trending page ([65d88b5](https://github.com/bookhoard/bookhoarder/commit/65d88b5c6072cb746045a373414618c28fa414dd))
+
 ## [0.12.0](https://github.com/bookhoard/bookhoarder/compare/v0.11.0...v0.12.0) (2026-08-31)
 
 
