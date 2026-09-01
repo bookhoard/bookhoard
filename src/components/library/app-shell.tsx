@@ -6,7 +6,6 @@ import { AppHeader } from "./app-header";
 import { BookDetailDrawer } from "./book-detail-drawer";
 import { DemoBanner } from "./demo-banner";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
-import { DEMO_MODE } from "@/lib/demo-mode";
 
 export function AppShell({
   children,
@@ -17,7 +16,7 @@ export function AppShell({
 }) {
   return (
     <div className="flex h-dvh flex-col overflow-hidden">
-      {DEMO_MODE && <DemoBanner />}
+      <DemoBanner />
 
       <SidebarProvider defaultOpen={defaultSidebarOpen} className="min-h-0 flex-1">
         <AppSidebar />
