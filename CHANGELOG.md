@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.17.0](https://github.com/bookhoard/bookhoarder/compare/v0.16.0...v0.17.0) (2026-09-01)
+
+
+### Features
+
+* update demo banner to always display and improve styling ([8af8afc](https://github.com/bookhoard/bookhoarder/commit/8af8afc2443a429638d36bc7fc5d266dac37c8b8))
+
 ## [0.16.0](https://github.com/bookhoard/bookhoarder/compare/v0.15.0...v0.16.0) (2026-09-01)
 
 
