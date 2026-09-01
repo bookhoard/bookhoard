@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.16.0](https://github.com/bookhoard/bookhoarder/compare/v0.15.0...v0.16.0) (2026-09-01)
+
+
+### Features
+
+* add demo banner to indicate read-only mode in the app shell ([0d967bc](https://github.com/bookhoard/bookhoarder/commit/0d967bc475f286f48c1a07529964473359709107))
+
 ## [0.15.0](https://github.com/bookhoard/bookhoarder/compare/v0.14.0...v0.15.0) (2026-08-31)
 
 
