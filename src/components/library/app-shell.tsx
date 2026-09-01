@@ -4,7 +4,9 @@ import * as React from "react";
 import { AppSidebar } from "./app-sidebar";
 import { AppHeader } from "./app-header";
 import { BookDetailDrawer } from "./book-detail-drawer";
+import { DemoBanner } from "./demo-banner";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import { DEMO_MODE } from "@/lib/demo-mode";
 
 export function AppShell({
   children,
@@ -14,20 +16,24 @@ export function AppShell({
   defaultSidebarOpen: boolean;
 }) {
   return (
-    <SidebarProvider defaultOpen={defaultSidebarOpen}>
-      <AppSidebar />
+    <div className="flex h-dvh flex-col overflow-hidden">
+      {DEMO_MODE && <DemoBanner />}
 
-      <SidebarInset className="h-dvh overflow-hidden">
-        <AppHeader />
+      <SidebarProvider defaultOpen={defaultSidebarOpen} className="min-h-0 flex-1">
+        <AppSidebar />
 
-        <div className="flex flex-1 overflow-hidden md:pb-8 md:pl-8">
-          <div className="flex-1 overflow-y-auto px-4 pt-10 md:px-0">
-            <div className="flex flex-col gap-8 md:pr-8">{children}</div>
+        <SidebarInset className="h-full overflow-hidden">
+          <AppHeader />
+
+          <div className="flex flex-1 overflow-hidden md:pb-8 md:pl-8">
+            <div className="flex-1 overflow-y-auto px-4 pt-10 md:px-0">
+              <div className="flex flex-col gap-8 md:pr-8">{children}</div>
+            </div>
           </div>
-        </div>
-      </SidebarInset>
+        </SidebarInset>
 
-      <BookDetailDrawer />
-    </SidebarProvider>
+        <BookDetailDrawer />
+      </SidebarProvider>
+    </div>
   );
 }
