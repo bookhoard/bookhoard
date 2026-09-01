@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.19.0](https://github.com/bookhoard/bookhoarder/compare/v0.18.0...v0.19.0) (2026-09-01)
+
+
+### Features
+
+* add read-only demo mode support in settings panel and Makefile ([b7abcd8](https://github.com/bookhoard/bookhoarder/commit/b7abcd87d508f024de3a8da4be0df91f6a1346d5))
+
 ## [0.18.0](https://github.com/bookhoard/bookhoarder/compare/v0.17.0...v0.18.0) (2026-09-01)
 
 
