@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.18.0](https://github.com/bookhoard/bookhoarder/compare/v0.17.0...v0.18.0) (2026-09-01)
+
+
+### Features
+
+* rearrange components in app shell for improved layout and visibility ([d2221ff](https://github.com/bookhoard/bookhoarder/commit/d2221ff55cb51818a1b64abe396ba8f3a5271f93))
+
 ## [0.17.0](https://github.com/bookhoard/bookhoarder/compare/v0.16.0...v0.17.0) (2026-09-01)
 
 
