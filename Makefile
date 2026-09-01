@@ -1,7 +1,10 @@
-.PHONY: dev build start lint install docker-up docker-down docker-logs clean cf-deploy cf-deploy-unlocked cf-build cf-preview
+.PHONY: dev dev-demo build start lint install docker-up docker-down docker-logs clean cf-deploy cf-deploy-unlocked cf-build cf-preview
 
 dev: ## Run the Next.js dev server
 	pnpm dev
+
+dev-demo: ## Run the dev server in read-only demo mode (uploads/deletes/settings disabled)
+	NEXT_PUBLIC_DEMO_MODE=true pnpm dev
 
 build: ## Production build
 	pnpm build

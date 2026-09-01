@@ -798,39 +798,37 @@ export function SettingsPanel({ settings, profile }: SettingsPanelProps) {
               title="Backup"
               description="Download a copy of your library so it lives somewhere other than this one bucket."
             >
-              {DEMO_MODE ? (
-                <p className="py-4 text-sm text-muted-foreground">
-                  Backups are disabled on this read-only demo.
-                </p>
-              ) : (
-                <>
-                  <SettingRow
-                    title="Include EPUB and cover files"
-                    description={
-                      includeFiles
-                        ? `Adds every book's file — roughly ${formatBytes(totalBookBytes)} on top of metadata.`
-                        : "Off downloads just metadata (ratings, shelves, tags, settings) — small and fast."
-                    }
-                  >
-                    <Switch checked={includeFiles} onCheckedChange={setIncludeFiles} />
-                  </SettingRow>
-                  <div className="flex justify-end py-4">
-                    <Button
-                      variant="outline"
-                      render={
-                        <a
-                          href={`/api/backup${includeFiles ? "?files=1" : ""}`}
-                          download
-                        />
-                      }
-                      className="gap-2"
-                    >
-                      <Archive className="size-4" />
-                      Download backup
-                    </Button>
-                  </div>
-                </>
-              )}
+              <SettingRow
+                title="Include EPUB and cover files"
+                description={
+                  DEMO_MODE
+                    ? "Backups are disabled on this read-only demo."
+                    : includeFiles
+                      ? `Adds every book's file — roughly ${formatBytes(totalBookBytes)} on top of metadata.`
+                      : "Off downloads just metadata (ratings, shelves, tags, settings) — small and fast."
+                }
+              >
+                <Switch
+                  checked={includeFiles}
+                  onCheckedChange={setIncludeFiles}
+                  disabled={DEMO_MODE}
+                />
+              </SettingRow>
+              <div className="flex justify-end py-4">
+                <Button
+                  variant="outline"
+                  disabled={DEMO_MODE}
+                  render={
+                    DEMO_MODE ? undefined : (
+                      <a href={`/api/backup${includeFiles ? "?files=1" : ""}`} download />
+                    )
+                  }
+                  className="gap-2"
+                >
+                  <Archive className="size-4" />
+                  Download backup
+                </Button>
+              </div>
             </SectionCard>
             {!DEMO_MODE && (
               <p className="px-1 text-xs text-muted-foreground">
