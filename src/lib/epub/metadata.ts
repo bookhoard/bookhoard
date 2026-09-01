@@ -23,7 +23,10 @@ function firstText(value: unknown): string | undefined {
   if (Array.isArray(value)) return firstText(value[0]);
   if (typeof value === "object") {
     const obj = value as Record<string, unknown>;
-    return typeof obj["#text"] === "string" ? obj["#text"] : undefined;
+    // fast-xml-parser auto-converts purely-numeric text (e.g. an ISBN-13)
+    // into a JS number, not a string — coerce instead of dropping it.
+    const text = obj["#text"];
+    return text === undefined || text === null ? undefined : String(text);
   }
   return String(value);
 }
